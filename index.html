@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LabGuide — คู่มือห้องปฏิบัติการ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  /* Apple-inspired palette */
+  --bg: #f5f5f7;
+  --bg2: #ffffff;
+  --bg3: #fbfbfd;
+  --surface: rgba(255,255,255,0.72);
+  --surface-solid: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.14);
+
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --blue-light: #f0f7ff;
+  --blue-dim: rgba(0,113,227,0.1);
+
+  --green: #28a745;
+  --green-light: #f0faf0;
+  --red: #ff3b30;
+  --red-light: #fff5f4;
+  --orange: #ff9500;
+  --orange-light: #fff8f0;
+  --teal: #32ade6;
+  --purple: #5e5ce6;
+
+  --text: #1d1d1f;
+  --text2: #424245;
+  --text3: #6e6e73;
+  --text4: #aeaeb2;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+
+  --transition: 0.22s cubic-bezier(0.25,0.46,0.45,0.94);
+  --spring: 0.4s cubic-bezier(0.34,1.56,0.64,1);
+
+  --font: 'Noto Sans Thai','DM Sans',-apple-system,sans-serif;
+  --font-en: 'DM Sans',-apple-system,sans-serif;
+  --sidebar: 240px;
+  --topbar: 52px;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.25)}
+
+/* ══ TOPBAR ══ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;
+  height:var(--topbar);
+  background:rgba(245,245,247,0.85);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 20px;gap:12px;
+  z-index:1000;
+}
+.topbar-brand{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.topbar-icon{width:28px;height:28px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.topbar-icon svg{width:16px;height:16px;color:white}
+.topbar-name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-0.3px;line-height:1}
+.topbar-ver{font-size:10px;color:var(--text4);font-family:var(--font-en);font-weight:500;letter-spacing:0.3px}
+.topbar-search{
+  flex:1;max-width:440px;margin:0 auto;
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg2);
+  border:1px solid var(--border-strong);
+  border-radius:10px;
+  padding:0 12px;height:32px;
+  transition:var(--transition);
+}
+.topbar-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.15)}
+.topbar-search svg{width:13px;height:13px;color:var(--text4);flex-shrink:0}
+.topbar-search input{flex:1;border:none;background:none;font-family:var(--font);font-size:13px;color:var(--text);outline:none}
+.topbar-search input::placeholder{color:var(--text4)}
+.topbar-kbd{font-size:10px;font-family:var(--font-en);color:var(--text4);background:var(--bg);border:1px solid var(--border-strong);border-radius:4px;padding:1px 5px;flex-shrink:0}
+.topbar-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
+.topbar-btn{
+  display:flex;align-items:center;gap:5px;
+  height:30px;padding:0 12px;
+  background:var(--bg2);
+  border:1px solid var(--border-strong);
+  border-radius:8px;
+  font-family:var(--font);font-size:12.5px;font-weight:500;
+  color:var(--text2);cursor:pointer;
+  transition:var(--transition);white-space:nowrap;
+}
+.topbar-btn:hover{background:var(--bg3);border-color:rgba(0,0,0,0.2)}
+.topbar-btn.primary{background:var(--blue);border-color:var(--blue);color:white}
+.topbar-btn.primary:hover{background:var(--blue-hover)}
+.topbar-btn svg{width:13px;height:13px}
+
+/* ══ LAYOUT ══ */
+.layout{display:flex;padding-top:var(--topbar);min-height:100vh}
+
+/* ══ SIDEBAR ══ */
+.sidebar{
+  width:var(--sidebar);
+  background:rgba(245,245,247,0.7);
+  backdrop-filter:saturate(180%) blur(20px);
+  border-right:1px solid var(--border);
+  position:fixed;top:var(--topbar);left:0;bottom:0;
+  overflow-y:auto;padding:12px 0 24px;
+  z-index:100;
+}
+.nav-group{margin-bottom:2px}
+.nav-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--text4);padding:14px 16px 5px;font-family:var(--font-en)}
+.nav-item{
+  display:flex;align-items:center;gap:9px;
+  padding:7px 12px 7px 16px;margin:1px 8px;
+  border-radius:var(--radius-sm);
+  color:var(--text2);font-size:13px;font-weight:500;
+  cursor:pointer;transition:var(--transition);
+  text-decoration:none;
+}
+.nav-item:hover{background:rgba(0,0,0,0.05);color:var(--text)}
+.nav-item.active{background:var(--blue-dim);color:var(--blue);font-weight:600}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.85}
+.nav-item.active svg{opacity:1}
+.nav-badge{margin-left:auto;background:var(--blue);color:white;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:20px;font-family:var(--font-en)}
+.nav-divider{height:1px;background:var(--border);margin:6px 12px}
+
+/* ══ MAIN ══ */
+.main{margin-left:var(--sidebar);flex:1;min-height:calc(100vh - var(--topbar))}
+.page{display:none;padding:32px 36px 64px;animation:pageIn .3s ease both}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ PAGE HEADER ══ */
+.ph{margin-bottom:28px}
+.ph-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-family:var(--font-en);margin-bottom:4px}
+.ph-title{font-size:28px;font-weight:700;letter-spacing:-0.8px;color:var(--text);line-height:1.2}
+.ph-sub{font-size:13.5px;color:var(--text3);margin-top:4px;font-weight:400}
+.ph-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.ph-actions{display:flex;gap:8px;padding-bottom:2px}
+
+/* ══ BUTTON ══ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:var(--transition);text-decoration:none}
+.btn svg{width:14px;height:14px}
+.btn-blue{background:var(--blue);color:white}
+.btn-blue:hover{background:var(--blue-hover)}
+.btn-ghost{background:var(--bg2);color:var(--text2);border:1px solid var(--border-strong)}
+.btn-ghost:hover{background:var(--bg3)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-xs{padding:4px 10px;font-size:11.5px;border-radius:var(--radius-xs)}
+
+/* ══ CARD ══ */
+.card{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.card-h{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13.5px;font-weight:600;color:var(--text)}
+.card-b{padding:20px}
+
+/* ══ HOME — BANNER ══ */
+.home-banner{
+  background:linear-gradient(135deg,#0071e3 0%,#0096ff 50%,#32ade6 100%);
+  border-radius:var(--radius-xl);
+  padding:32px 36px;
+  color:white;
+  margin-bottom:24px;
+  position:relative;overflow:hidden;
+}
+.home-banner::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%);
+  border-radius:50%;
+}
+.home-banner::after{
+  content:'';position:absolute;bottom:-80px;left:30%;
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(255,255,255,0.07) 0%,transparent 70%);
+  border-radius:50%;
+}
+.banner-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;opacity:.7;font-family:var(--font-en);margin-bottom:6px}
+.banner-title{font-size:26px;font-weight:700;letter-spacing:-0.6px;margin-bottom:4px;line-height:1.2}
+.banner-sub{font-size:13px;opacity:.75;font-weight:400}
+.banner-meta{display:flex;gap:20px;margin-top:20px}
+.banner-stat{display:flex;flex-direction:column;gap:2px}
+.banner-stat-n{font-size:22px;font-weight:700;letter-spacing:-0.5px;font-family:var(--font-en)}
+.banner-stat-l{font-size:11px;opacity:.7;font-weight:500}
+
+/* ══ HOME — ALERT ══ */
+.alert{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px 16px;border-radius:var(--radius);
+  margin-bottom:20px;
+}
+.alert.warn{background:#fff9f0;border:1px solid rgba(255,149,0,0.25)}
+.alert.info{background:var(--blue-light);border:1px solid rgba(0,113,227,0.2)}
+.alert.danger{background:var(--red-light);border:1px solid rgba(255,59,48,0.2)}
+.alert-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.alert.warn .alert-dot{background:var(--orange)}
+.alert.info .alert-dot{background:var(--blue)}
+.alert.danger .alert-dot{background:var(--red)}
+.alert-title{font-size:12.5px;font-weight:700;margin-bottom:2px}
+.alert.warn .alert-title{color:var(--orange)}
+.alert.info .alert-title{color:var(--blue)}
+.alert.danger .alert-title{color:var(--red)}
+.alert-text{font-size:12px;color:var(--text3);line-height:1.55}
+
+/* ══ HOME — QUICK GRID ══ */
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.quick-card{
+  background:var(--surface-solid);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px;
+  cursor:pointer;transition:var(--transition);
+  display:flex;flex-direction:column;gap:10px;
+}
+.quick-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow);transform:translateY(-1px)}
+.quick-card:active{transform:scale(0.98)}
+.quick-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.quick-icon svg{width:18px;height:18px}
+.quick-name{font-size:13.5px;font-weight:600;color:var(--text)}
+.quick-desc{font-size:11.5px;color:var(--text3);line-height:1.5}
+
+/* ══ INFO GRID ══ */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.info-box{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.info-box-h{padding:13px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:7px}
+.info-box-h svg{width:14px;height:14px;color:var(--blue)}
+.info-row{display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:12.5px}
+.info-row:last-child{border-bottom:none}
+.info-key{color:var(--text3);font-weight:500;min-width:140px;flex-shrink:0}
+.info-val{color:var(--text);font-weight:500}
+
+/* ══ TESTS — TABS ══ */
+.tabs-bar{display:flex;gap:2px;padding:3px;background:rgba(0,0,0,0.05);border-radius:10px;margin-bottom:20px;width:fit-content}
+.tab-pill{
+  padding:6px 16px;border-radius:8px;
+  font-size:13px;font-weight:500;color:var(--text3);
+  cursor:pointer;transition:var(--transition);
+  white-space:nowrap;
+}
+.tab-pill.active{background:white;color:var(--text);font-weight:600;box-shadow:var(--shadow-sm)}
+.tab-pill:not(.active):hover{color:var(--text2)}
+
+/* ══ FILTER BAR ══ */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-input{
+  height:34px;padding:0 12px;
+  border:1px solid var(--border-strong);border-radius:var(--radius-sm);
+  font-family:var(--font);font-size:13px;color:var(--text);
+  background:var(--bg2);outline:none;min-width:220px;
+  transition:var(--transition);
+}
+.filter-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.12)}
+.filter-select{
+  height:34px;padding:0 10px;
+  border:1px solid var(--border-strong);border-radius:var(--radius-sm);
+  font-family:var(--font);font-size:13px;color:var(--text2);
+  background:var(--bg2);outline:none;cursor:pointer;
+  transition:var(--transition);
+}
+.filter-select:focus{border-color:var(--blue)}
+.filter-count{margin-left:auto;font-size:12px;color:var(--text4);font-family:var(--font-en)}
+
+/* ══ TABLE ══ */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface-solid)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{
+  background:#f5f5f7;padding:10px 14px;
+  font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.5px;color:var(--text3);
+  text-align:left;white-space:nowrap;
+  border-bottom:1px solid var(--border);
+  font-family:var(--font-en);
+}
+tbody tr{border-bottom:1px solid var(--border);transition:background var(--transition)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#f5f5f7}
+tbody td{padding:11px 14px;vertical-align:top}
+.td-name{font-weight:600;color:var(--text);line-height:1.3}
+.td-note{font-size:11px;color:var(--orange);margin-top:3px;font-weight:500}
+.td-code{font-family:var(--font-en);font-size:12px;color:var(--blue);font-weight:600;letter-spacing:-0.2px}
+.td-small{font-size:12px;color:var(--text3);line-height:1.5}
+
+/* ══ TUBE BADGES ══ */
+.tube{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.tube-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.t-purple{background:#f3e8ff;color:#6d28d9}.t-purple .tube-dot{background:#7c3aed}
+.t-green{background:#dcfce7;color:#15803d}.t-green .tube-dot{background:#22c55e}
+.t-blue{background:#dbeafe;color:#1d4ed8}.t-blue .tube-dot{background:#3b82f6}
+.t-red{background:#fee2e2;color:#b91c1c}.t-red .tube-dot{background:#ef4444}
+.t-gray{background:#f1f5f9;color:#475569}.t-gray .tube-dot{background:#94a3b8}
+.t-yellow{background:#fef9c3;color:#92400e}.t-yellow .tube-dot{background:#d97706}
+
+/* ══ TAGS ══ */
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--font-en)}
+.tag-blue{background:var(--blue-light);color:var(--blue)}
+.tag-green{background:var(--green-light);color:var(--green)}
+.tag-orange{background:var(--orange-light);color:var(--orange)}
+.tag-red{background:var(--red-light);color:var(--red)}
+
+/* ══ TUBES PAGE ══ */
+.tube-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.tube-card{
+  background:var(--surface-solid);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;
+  box-shadow:var(--shadow-sm);transition:var(--transition);
+}
+.tube-card:hover{box-shadow:var(--shadow);border-color:var(--border-strong)}
+.tube-chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;margin-bottom:10px}
+.tube-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+.tube-meta{font-size:11.5px;color:var(--text3);margin-bottom:8px}
+.tube-uses{font-size:12.5px;color:var(--text2);line-height:1.6}
+
+.order-strip{
+  background:var(--blue-light);border:1px solid rgba(0,113,227,0.2);
+  border-radius:var(--radius);padding:14px 18px;
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:500;color:var(--text);
+  margin-bottom:20px;flex-wrap:wrap;
+}
+.order-item{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.order-arrow{color:var(--text4);font-size:12px}
+
+/* ══ STEPS ══ */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.step-card{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
+.step-n{position:absolute;top:12px;right:14px;font-size:32px;font-weight:800;color:rgba(0,0,0,0.05);font-family:var(--font-en);line-height:1}
+.step-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.step-icon svg{width:17px;height:17px}
+.step-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.step-text{font-size:12px;color:var(--text3);line-height:1.6}
+
+/* ══ SEND TIME ══ */
+.send-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.send-card{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.send-h{padding:11px 14px;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;border-bottom:1px solid var(--border)}
+.send-h svg{width:14px;height:14px}
+.send-h.red{color:var(--red);background:var(--red-light)}
+.send-h.orange{color:var(--orange);background:var(--orange-light)}
+.send-h.blue{color:var(--blue);background:var(--blue-light)}
+.send-h.purple{color:var(--purple);background:#f0f0ff}
+.send-h.teal{color:var(--teal);background:#f0f9ff}
+.send-list{padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.send-item{font-size:12.5px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.send-item:last-child{border-bottom:none}
+.send-item::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;opacity:.5}
+
+/* ══ REJECT LIST ══ */
+.reject-list{display:flex;flex-direction:column;gap:8px}
+.reject-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius)}
+.reject-n{width:20px;height:20px;background:var(--red);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;flex-shrink:0;margin-top:1px;font-family:var(--font-en)}
+.reject-text{font-size:13px;line-height:1.55;color:var(--text2)}
+.reject-text strong{color:var(--text)}
+
+/* ══ STORAGE TABLE ══ */
+.storage-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+
+/* ══ BOOK ══ */
+.book-wrap{background:#e8e4df;border-radius:var(--radius-xl);padding:20px}
+.book-ctrl{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.book-ctrl-btn{display:flex;align-items:center;gap:5px;height:32px;padding:0 14px;background:var(--text);color:white;border:none;border-radius:8px;font-family:var(--font);font-size:12.5px;font-weight:600;cursor:pointer;transition:var(--transition)}
+.book-ctrl-btn:hover{opacity:.85}
+.book-ctrl-btn:disabled{opacity:.35;cursor:not-allowed}
+.book-ctrl-btn svg{width:14px;height:14px}
+.book-info{font-size:12.5px;color:var(--text3);font-family:var(--font-en);font-weight:500}
+.book-spread{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:white;border-radius:4px 12px 12px 4px;
+  min-height:720px;position:relative;overflow:hidden;
+  box-shadow:-6px 0 20px rgba(0,0,0,0.15),6px 0 20px rgba(0,0,0,0.1);
+}
+.book-spread::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.12),rgba(0,0,0,.08));z-index:1;pointer-events:none}
+.book-page{padding:36px 32px;display:flex;flex-direction:column}
+.book-page.left{background:linear-gradient(to right,#fafaf8,#ffffff);border-right:1px solid rgba(0,0,0,.06)}
+.book-page.right{background:white}
+.book-pg-h{text-align:center;border-bottom:1.5px solid var(--blue);padding-bottom:12px;margin-bottom:16px}
+.book-pg-h h2{font-size:14px;font-weight:700;color:var(--blue);letter-spacing:-0.3px}
+.book-pg-h p{font-size:10.5px;color:var(--text4);margin-top:2px;font-family:var(--font-en)}
+.book-sec{font-size:11.5px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;border-left:2.5px solid var(--blue);padding-left:8px;font-family:var(--font-en)}
+.book-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px}
+.book-tbl th{background:var(--blue);color:white;padding:5px 9px;text-align:left;font-size:10px;font-weight:700;font-family:var(--font-en);letter-spacing:.3px}
+.book-tbl td{padding:6px 9px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.book-tbl tr:hover td{background:#f5f5f7}
+.book-foot{margin-top:auto;padding-top:12px;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;font-size:9.5px;color:var(--text4);font-family:var(--font-en)}
+
+/* ══ PATIENT PREP ══ */
+.prep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.prep-card{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.prep-h{padding:11px 14px;font-size:12px;font-weight:700;border-bottom:1px solid var(--border)}
+.prep-h.red{background:var(--red-light);color:var(--red)}
+.prep-h.orange{background:var(--orange-light);color:var(--orange)}
+.prep-h.blue{background:var(--blue-light);color:var(--blue)}
+.prep-h.purple{background:#f3e8ff;color:#6d28d9}
+.prep-h.green{background:var(--green-light);color:var(--green)}
+.prep-h.teal{background:#f0f9ff;color:var(--teal)}
+.prep-item{padding:8px 14px;font-size:12.5px;color:var(--text2);border-bottom:1px solid var(--border)}
+.prep-item:last-child{border-bottom:none}
+
+/* ══ AI CHAT ══ */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 180px);max-height:680px}
+.chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0}
+.msg{display:flex;gap:9px;max-width:80%}
+.msg.user{flex-direction:row-reverse;margin-left:auto}
+.msg-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.msg-av.ai{background:var(--blue);color:white}
+.msg-av.user{background:var(--text);color:white}
+.msg-b{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55}
+.msg.ai .msg-b{background:white;border:1px solid var(--border);border-top-left-radius:3px;box-shadow:var(--shadow-sm)}
+.msg.user .msg-b{background:var(--blue);color:white;border-top-right-radius:3px}
+.msg-time{font-size:10px;color:var(--text4);margin-top:3px;font-family:var(--font-en)}
+.msg.user .msg-time{text-align:right}
+.typing{display:flex;gap:4px;padding:3px 0;align-items:center}
+.td{width:6px;height:6px;background:var(--text4);border-radius:50%;animation:bounce 1.2s ease-in-out infinite}
+.td:nth-child(2){animation-delay:.2s}
+.td:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-5px);opacity:1}}
+
+.chat-footer{background:var(--surface-solid);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:12px}
+.chat-sugs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chat-sug{padding:5px 11px;background:var(--bg);border:1px solid var(--border-strong);border-radius:20px;font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:var(--transition)}
+.chat-sug:hover{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
+.chat-row{display:flex;gap:8px;align-items:flex-end}
+.chat-input{flex:1;border:1.5px solid var(--border-strong);border-radius:var(--radius-sm);padding:9px 13px;font-family:var(--font);font-size:13.5px;resize:none;outline:none;max-height:100px;line-height:1.5;transition:var(--transition)}
+.chat-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.12)}
+.chat-send{width:36px;height:36px;background:var(--blue);border:none;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;color:white}
+.chat-send:hover{background:var(--blue-hover)}
+.chat-send:disabled{background:var(--text4);cursor:not-allowed}
+.chat-send svg{width:16px;height:16px}
+
+/* ══ STATUS BADGE ══ */
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:600}
+.status-online{background:#dcfce7;color:#15803d}
+.status-loading{background:#fef9c3;color:#92400e}
+.status-offline{background:#fee2e2;color:#b91c1c}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* ══ SETTINGS ══ */
+.settings-box{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.settings-h{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700}
+.settings-h svg{width:15px;height:15px;color:var(--blue)}
+.s-row{display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.s-row:last-child{border-bottom:none}
+.s-info{flex:1}
+.s-label{font-size:13px;font-weight:600}
+.s-desc{font-size:11.5px;color:var(--text3);margin-top:2px;line-height:1.5}
+.s-input{height:32px;padding:0 11px;border:1.5px solid var(--border-strong);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;color:var(--text);background:var(--bg);outline:none;width:240px;transition:var(--transition)}
+.s-input:focus{border-color:var(--blue);background:white}
+
+/* ══ MODAL ══ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:var(--transition)}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:var(--radius-xl);width:780px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:scale(.96) translateY(8px);transition:var(--transition)}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-h{padding:20px 22px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:white;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.modal-close{width:26px;height:26px;background:var(--bg);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);flex-shrink:0;color:var(--text3)}
+.modal-close:hover{background:var(--red-light);color:var(--red)}
+.modal-close svg{width:13px;height:13px}
+.modal-b{padding:20px 22px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mf-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text4);margin-bottom:3px;font-family:var(--font-en)}
+.mf-val{font-size:13.5px;font-weight:600;color:var(--text)}
+.mf.full{grid-column:1/-1}
+.modal-sec{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.modal-sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);margin-bottom:10px;font-family:var(--font-en)}
+
+/* ══ EMPTY / LOADING ══ */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:10px;text-align:center}
+.empty svg{width:40px;height:40px;color:var(--text4)}
+.empty-title{font-size:15px;font-weight:600;color:var(--text2)}
+.empty-sub{font-size:13px;color:var(--text4)}
+.spin{width:32px;height:32px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══ UTILS ══ */
+.mb-16{margin-bottom:16px}.mb-20{margin-bottom:20px}.mb-24{margin-bottom:24px}
+.mt-12{margin-top:12px}
+.text-blue{color:var(--blue)}.text-red{color:var(--red)}.text-green{color:var(--green)}
+.fw-6{font-weight:600}.fw-7{font-weight:700}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+
+@media(max-width:960px){
+  .sidebar{transform:translateX(-100%)}.main{margin-left:0}
+  .page{padding:20px 16px 48px}
+  .quick-grid,.steps-grid,.tube-grid,.prep-grid,.send-grid,.storage-grid,.info-grid{grid-template-columns:1fr}
+  .book-spread{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a class="topbar-brand" href="#">
+    <div class="topbar-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <div class="topbar-name">LabGuide</div>
+      <div class="topbar-ver">VERSION 17 · 2568</div>
+    </div>
+  </a>
+
+  <div class="topbar-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="gSearch" type="text" placeholder="ค้นหารายการตรวจ..." onkeydown="handleGSearch(event)">
+    <span class="topbar-kbd">/</span>
+  </div>
+
+  <div class="topbar-actions">
+    <button class="topbar-btn" onclick="nav('book')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      คู่มือ
+    </button>
+    <button class="topbar-btn primary" onclick="nav('chat')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      AI ถาม-ตอบ
+    </button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="nav-group">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="nav('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      หน้าแรก
+    </div>
+    <div class="nav-item" onclick="nav('chat')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      AI ถาม-ตอบ
+      <span class="nav-badge">AI</span>
+    </div>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-group">
+    <div class="nav-label">บริการตรวจ</div>
+    <div class="nav-item" onclick="nav('tests')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18"/></svg>
+      รายการตรวจวิเคราะห์
+    </div>
+    <div class="nav-item" onclick="nav('tubes')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5s-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/></svg>
+      หลอดเก็บสิ่งส่งตรวจ
+    </div>
+    <div class="nav-item" onclick="nav('collection')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      ขั้นตอนการเก็บ
+    </div>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-group">
+    <div class="nav-label">คู่มือปฏิบัติ</div>
+    <div class="nav-item" onclick="nav('patient')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      การเตรียมผู้ป่วย
+    </div>
+    <div class="nav-item" onclick="nav('sending')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      การส่งสิ่งส่งตรวจ
+    </div>
+    <div class="nav-item" onclick="nav('rejection')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      เกณฑ์ปฏิเสธ
+    </div>
+    <div class="nav-item" onclick="nav('storage')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      ระยะเวลาเก็บรักษา
+    </div>
+    <div class="nav-item" onclick="nav('addon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      การขอตรวจเพิ่ม/ซ้ำ
+    </div>
+    <div class="nav-item" onclick="nav('urine')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg>
+      การเก็บปัสสาวะ & UA
+    </div>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-group">
+    <div class="nav-label">ระบบ</div>
+    <div class="nav-item" onclick="nav('book')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      คู่มือหนังสือ
+    </div>
+    <div class="nav-item" onclick="nav('settings')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      ตั้งค่า
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="home-banner">
+    <div class="banner-label" id="homeDeptLabel">ภาควิชาพยาธิวิทยาคลินิก · คณะแพทยศาสตร์ศิริราชพยาบาล · มหาวิทยาลัยมหิดล</div>
+    <div class="banner-title" id="homeTitle">คู่มือส่งตรวจทางห้องปฏิบัติการ</div>
+    <div class="banner-sub" id="homeTitleEn">Department of Clinical Pathology · Siriraj Hospital · Mahidol University</div>
+    <div class="banner-meta">
+      <div class="banner-stat">
+        <div class="banner-stat-n" id="homeVersion">V.17</div>
+        <div class="banner-stat-l">เวอร์ชันล่าสุด · <span id="homeVersionDate">23 ก.ค. 68</span></div>
+      </div>
+      <div class="banner-stat"><div class="banner-stat-n">24h</div><div class="banner-stat-l">บริการตลอด 24 ชม.</div></div>
+      <div class="banner-stat"><div class="banner-stat-n" id="totalTestCount">150+</div><div class="banner-stat-l">รายการตรวจ</div></div>
+    </div>
+  </div>
+
+  <div class="alert warn mb-20">
+    <div class="alert-dot"></div>
+    <div>
+      <div class="alert-title">การทดสอบที่จะได้ผลล่าช้า</div>
+      <div class="alert-text">
+        <strong>ช่วง 11.00–15.00 น.:</strong> <span id="alertLate1100">Active B₁₂ · Haptoglobin · Ceruloplasmin · Fructosamine · Prealbumin · Cystatin C · Cortisol (saliva) · Beta-crosslaps · Total-P1NP</span><br>
+        <strong>ช่วง 23.00–03.00 น.:</strong> <span id="alertLate2300">proBNP · Ketone · AMH · C-peptied · LH · FSH · Prolactin · Progesterone · SHBG · DHEAs · Testosterone · hsCRP · Estradiol · Vitamin B₁₂ · Folate · Lipoprotein a · Ammonia</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-grid mb-24">
+    <div class="quick-card" onclick="nav('tests')">
+      <div class="quick-icon" style="background:#f0f7ff"><svg viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18"/></svg></div>
+      <div class="quick-name">รายการตรวจวิเคราะห์</div>
+      <div class="quick-desc">ค้นหารายการตรวจ ค่าอ้างอิง ค่าบริการ และวิธีการตรวจ</div>
+    </div>
+    <div class="quick-card" onclick="nav('tubes')">
+      <div class="quick-icon" style="background:#f3e8ff"><svg viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5s-2.5-1.1-2.5-2.5V2"/></svg></div>
+      <div class="quick-name">หลอดเก็บสิ่งส่งตรวจ</div>
+      <div class="quick-desc">ชนิดหลอด สารเคมี และ Order of Draw</div>
+    </div>
+    <div class="quick-card" onclick="nav('collection')">
+      <div class="quick-icon" style="background:#dcfce7"><svg viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div class="quick-name">ขั้นตอนการเก็บ</div>
+      <div class="quick-desc">วิธีการเจาะเลือดและการเก็บ Body Fluid</div>
+    </div>
+    <div class="quick-card" onclick="nav('patient')">
+      <div class="quick-icon" style="background:#fff8f0"><svg viewBox="0 0 24 24" fill="none" stroke="#ff9500" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="quick-name">การเตรียมผู้ป่วย</div>
+      <div class="quick-desc">งดอาหาร การหยุดยา เวลาเจาะที่เหมาะสม</div>
+    </div>
+    <div class="quick-card" onclick="nav('sending')">
+      <div class="quick-icon" style="background:#f0f9ff"><svg viewBox="0 0 24 24" fill="none" stroke="#32ade6" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+      <div class="quick-name">การส่งสิ่งส่งตรวจ</div>
+      <div class="quick-desc">ระยะเวลา อุณหภูมิ และข้อควรระวัง</div>
+    </div>
+    <div class="quick-card" onclick="nav('chat')">
+      <div class="quick-icon" style="background:#f0f0ff"><svg viewBox="0 0 24 24" fill="none" stroke="#5e5ce6" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="quick-name">AI ถาม-ตอบ</div>
+      <div class="quick-desc">ถามคำถามเกี่ยวกับการตรวจ ดึงข้อมูลจาก Google Sheet</div>
+    </div>
+    <div class="quick-card" onclick="nav('addon')">
+      <div class="quick-icon" style="background:#f0fdf4"><svg viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+      <div class="quick-name">การขอตรวจเพิ่ม</div>
+      <div class="quick-desc">ระยะเวลาที่สามารถขอ Add-on tests ได้ หลังเจาะเลือด</div>
+    </div>
+
+  </div>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <div class="info-box-h">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        สถานที่รับส่งตรวจ
+      </div>
+      <div class="info-row">
+        <span class="info-key">📍 <span id="loc1Name">ห้องเจาะเลือด</span></span>
+        <span class="info-val"><span id="loc1Addr">อาคารนวมินทรบพิตร ๘๔ พรรษา ชั้น 1</span><br>
+        <span style="color:var(--blue);font-family:var(--font-en);font-size:12px">โทร <span id="loc1Tel">(02) 4198619 และ 40047</span></span></span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">🔬 <span id="loc2Name">ห้องปฏิบัติการกลาง</span></span>
+        <span class="info-val"><span id="loc2Addr">อาคารนวมินทรบพิตร ๘๔ พรรษา ชั้น 1</span><br>
+        <span style="color:var(--blue);font-family:var(--font-en);font-size:12px">โทร <span id="loc2Tel">(02) 4197048-9 และ 02-4199174</span></span></span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">🧬 <span id="loc3Name">ห้องปฏิบัติการพิเศษ</span></span>
+        <span class="info-val"><span id="loc3Addr">อาคาร SIMR ชั้น 8</span><br>
+        <span style="color:var(--text3);font-size:12px" id="loc3Sub">รับฝากตัวอย่าง: ตึกจุลสีวิทยา ชั้น 2</span></span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">⏰ เวลาบริการ</span>
+        <span class="info-val" style="color:var(--green);font-weight:700" id="homeHours">24 ชั่วโมง (ทั้ง 2 สถานที่)</span>
+      </div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-h">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        ประวัติการปรับปรุงคู่มือ
+      </div>
+      <div id="versionHistory">
+        <div class="info-row"><span class="info-key" style="color:var(--blue);font-weight:700">V.17 (23 ก.ค. 68)</span><span class="info-val">ทบทวนและปรับปรุงคู่มือประจำปี 2568</span></div>
+        <div class="info-row"><span class="info-key">V.16 (25 ก.ค. 67)</span><span class="info-val">ทบทวนและปรับปรุงคู่มือประจำปี 2567</span></div>
+        <div class="info-row"><span class="info-key">V.15 (25 ก.ย. 66)</span><span class="info-val">เพิ่ม Body fluid analysis, Malaria antigen (rapid test), pH (Pleural fluid)</span></div>
+        <div class="info-row"><span class="info-key">V.14 (29 มิ.ย. 65)</span><span class="info-val">ทบทวนและปรับปรุงคู่มือประจำปี 2565</span></div>
+        <div class="info-row"><span class="info-key">V.13 (23 มิ.ย. 64)</span><span class="info-val">เพิ่ม Active B₁₂, Fructosamine, NIPT · ปิด Anti-Acetylcholine Receptor, Hemosiderin, Transferrin</span></div>
+        <div class="info-row"><span class="info-key">V.12 (15 พ.ค. 63)</span><span class="info-val">ทบทวนและปรับปรุงงานเคมีคลินิก ประจำปี 2563</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTS -->
+<div id="page-tests" class="page">
+  <div class="ph">
+    <div class="ph-row">
+      <div>
+        <div class="ph-eyebrow">Laboratory Tests</div>
+        <div class="ph-title">รายการตรวจวิเคราะห์</div>
+        <div class="ph-sub" id="sheetStatus">ข้อมูลตัวอย่าง — ตั้งค่า Google Sheet เพื่อดูข้อมูลจริง</div>
+      </div>
+      <div class="ph-actions">
+        <button class="btn btn-ghost btn-sm" onclick="loadTests()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          รีเฟรช
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs-bar" id="tabsBar">
+    <div class="tab-pill active" onclick="switchTab('chemistry',this)">🧪 เคมีคลินิก</div>
+    <div class="tab-pill" onclick="switchTab('hematology',this)">🔴 โลหิตวิทยา</div>
+    <div class="tab-pill" onclick="switchTab('coag',this)">🩸 การห้ามเลือด</div>
+    <div class="tab-pill" onclick="switchTab('micro',this)">🔬 จุลทรรศน์</div>
+    <div class="tab-pill" onclick="switchTab('all',this)">ทั้งหมด</div>
+  </div>
+
+  <div class="filter-bar mb-16">
+    <input class="filter-input" id="testQ" type="text" placeholder="ค้นหา รายการตรวจ หรือ รหัส..." oninput="renderTable()">
+    <select class="filter-select" id="testTube" onchange="renderTable()">
+      <option value="">ทุก Tube</option>
+      <option value="purple">🟣 หลอดสีม่วง (EDTA)</option>
+      <option value="green">🟢 หลอดสีเขียว (Heparin)</option>
+      <option value="blue">🔵 หลอดสีฟ้า (Citrate)</option>
+      <option value="red">🔴 หลอดสีแดง</option>
+      <option value="gray">⚫ หลอดสีเทา</option>
+    </select>
+    <span class="filter-count" id="filterCount">— รายการ</span>
+  </div>
+
+  <div id="testsWrap">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>รหัสการตรวจวิเคราะห์<br><span style="font-weight:400;opacity:.7">(Lab Code)</span></th>
+            <th>รหัสกรมบัญชีกลาง<br><span style="font-weight:400;opacity:.7">(Gov. Code)</span></th>
+            <th>รายการตรวจวิเคราะห์</th>
+            <th>หลักการ/วิธีวิเคราะห์</th>
+            <th>Tube / สิ่งส่งตรวจ</th>
+            <th>ค่าอ้างอิง</th>
+            <th>วิเคราะห์</th>
+            <th>รับผล</th>
+            <th>ค่าบริการ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="testBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TUBES -->
+<div id="page-tubes" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Specimen Collection</div>
+    <div class="ph-title">หลอดเก็บสิ่งส่งตรวจ</div>
+    <div class="ph-sub">ชนิด สารเคมี และการใช้งาน</div>
+  </div>
+
+  <div class="order-strip mb-20">
+    <strong style="font-size:12px;color:var(--blue);font-family:var(--font-en);letter-spacing:.3px">ORDER OF DRAW</strong>
+    <div class="order-item"><span class="tube t-blue"><span class="tube-dot"></span>สีฟ้า</span></div>
+    <span class="order-arrow">→</span>
+    <div class="order-item"><span class="tube t-red"><span class="tube-dot"></span>สีแดง</span></div>
+    <span class="order-arrow">→</span>
+    <div class="order-item"><span class="tube t-green"><span class="tube-dot"></span>สีเขียว</span></div>
+    <span class="order-arrow">→</span>
+    <div class="order-item"><span class="tube t-purple"><span class="tube-dot"></span>สีม่วง</span></div>
+    <span class="order-arrow">→</span>
+    <div class="order-item"><span class="tube t-gray"><span class="tube-dot"></span>สีเทา</span></div>
+  </div>
+
+  <div class="tube-grid">
+    <div class="tube-card">
+      <div class="tube-chip"><div class="tube-circle" style="background:#f3e8ff;font-size:16px">🟣</div><span style="color:#6d28d9">หลอดจุกสีม่วง</span></div>
+      <div class="tube-meta">K2 EDTA · ขนาด 2 ml, 3 ml (เด็ก 0.5 ml)</div>
+      <div class="tube-uses">CBC · ESR · HbA1c · Ammonia · Beta-cross Laps · PTH · Osteocalcin · Reticulocyte</div>
+    </div>
+    <div class="tube-card">
+      <div class="tube-chip"><div class="tube-circle" style="background:#dcfce7;font-size:16px">🟢</div><span style="color:#15803d">หลอดจุกสีเขียว</span></div>
+      <div class="tube-meta">Lithium heparin · ขนาด 4 ml (เด็ก 0.5 ml)</div>
+      <div class="tube-uses">เคมีคลินิกส่วนใหญ่ · Glucose · Creatinine · Electrolyte · LFT · Lipid profile · Hormones</div>
+    </div>
+    <div class="tube-card">
+      <div class="tube-chip"><div class="tube-circle" style="background:#dbeafe;font-size:16px">🔵</div><span style="color:#1d4ed8">หลอดจุกสีฟ้า</span></div>
+      <div class="tube-meta">Sodium citrate 3.2% · ขนาด 2.7 ml (เด็ก 1.8 ml)</div>
+      <div class="tube-uses">PT/INR · APTT · Fibrinogen · D-Dimer · Antithrombin · Protein C, S</div>
+    </div>
+    <div class="tube-card">
+      <div class="tube-chip"><div class="tube-circle" style="background:#fee2e2;font-size:16px">🔴</div><span style="color:#b91c1c">หลอดจุกสีแดง</span></div>
+      <div class="tube-meta">Activator (ทำให้เกิด clot) · ขนาด 4 ml, 6 ml (เด็ก 1 ml)</div>
+      <div class="tube-uses">เคมีคลินิกบางชนิด · ซีโรโลยีส่วนใหญ่</div>
+    </div>
+    <div class="tube-card">
+      <div class="tube-chip"><div class="tube-circle" style="background:#f1f5f9;font-size:16px">⚫</div><span style="color:#475569">หลอดจุกสีเทา</span></div>
+      <div class="tube-meta">Potassium oxalate / NaF · ขนาด 2 ml</div>
+      <div class="tube-uses">Glucose · Lactate</div>
+    </div>
+    <div class="tube-card" style="border:1.5px solid rgba(217,119,6,.3)">
+      <div class="tube-chip"><div class="tube-circle" style="background:#fef9c3;font-size:16px">🟡</div><span style="color:#92400e">หลอดทึบพรางทหาร (พิเศษ)</span></div>
+      <div class="tube-meta">K3 EDTA · ขนาด 10 ml · เบิกที่จุลสีวิทยา ชั้น 8</div>
+      <div class="tube-uses">EGFR mutation · KRAS mutation · BRAF mutation · NIPT</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div class="card-title">จำนวนครั้งการผสมเลือด (Mix by Invert)</div></div>
+    <div class="card-b">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;text-align:center">
+        <div style="padding:14px;background:#dbeafe;border-radius:10px"><div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:6px">🔵 สีฟ้า</div><div style="font-size:24px;font-weight:800;color:#1d4ed8;font-family:var(--font-en)">4–5</div><div style="font-size:10px;color:#93c5fd">ครั้ง</div></div>
+        <div style="padding:14px;background:#fee2e2;border-radius:10px"><div style="font-size:11px;font-weight:700;color:#b91c1c;margin-bottom:6px">🔴 สีแดง</div><div style="font-size:24px;font-weight:800;color:#b91c1c;font-family:var(--font-en)">5</div><div style="font-size:10px;color:#fca5a5">ครั้ง</div></div>
+        <div style="padding:14px;background:#dcfce7;border-radius:10px"><div style="font-size:11px;font-weight:700;color:#15803d;margin-bottom:6px">🟢 สีเขียว</div><div style="font-size:24px;font-weight:800;color:#15803d;font-family:var(--font-en)">5–10</div><div style="font-size:10px;color:#86efac">ครั้ง</div></div>
+        <div style="padding:14px;background:#f3e8ff;border-radius:10px"><div style="font-size:11px;font-weight:700;color:#6d28d9;margin-bottom:6px">🟣 สีม่วง</div><div style="font-size:24px;font-weight:800;color:#6d28d9;font-family:var(--font-en)">5–10</div><div style="font-size:10px;color:#c4b5fd">ครั้ง</div></div>
+        <div style="padding:14px;background:#f1f5f9;border-radius:10px"><div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:6px">⚫ สีเทา</div><div style="font-size:24px;font-weight:800;color:#475569;font-family:var(--font-en)">8–10</div><div style="font-size:10px;color:#94a3b8">ครั้ง</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<div id="page-collection" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Blood Collection</div>
+    <div class="ph-title">ขั้นตอนการเก็บสิ่งส่งตรวจ</div>
+    <div class="ph-sub">การเจาะเลือดและ Body Fluid</div>
+  </div>
+  <div class="steps-grid mb-24">
+    <div class="step-card"><div class="step-n">1</div><div class="step-icon" style="background:#f0f7ff"><svg viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div><div class="step-title">ตรวจสอบ Exp. date</div><div class="step-text">เตรียมอุปกรณ์เจาะเลือดและหลอดเก็บเลือดให้พร้อม ตรวจสอบวันหมดอายุก่อนใช้</div></div>
+    <div class="step-card"><div class="step-n">2</div><div class="step-icon" style="background:#dcfce7"><svg viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="step-title">Identify ผู้ป่วย</div><div class="step-text"><strong>ผู้ป่วยนอก:</strong> บัตรประชาชน, ถามชื่อ-นามสกุล<br><strong>ผู้ป่วยใน:</strong> ข้อมือ, ชื่อ-HN<br><span style="color:var(--red);font-size:11px">*เด็กเล็ก: ถามผู้ปกครอง</span></div></div>
+    <div class="step-card"><div class="step-n">3</div><div class="step-icon" style="background:#f3e8ff"><svg viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5s-2.5-1.1-2.5-2.5V2"/></svg></div><div class="step-title">ตรวจสอบ Tube</div><div class="step-text">ตรวจสอบชนิดหลอดเก็บเลือดให้ตรงกับรายการตรวจที่สั่ง</div></div>
+    <div class="step-card"><div class="step-n">4</div><div class="step-icon" style="background:#fff8f0"><svg viewBox="0 0 24 24" fill="none" stroke="#ff9500" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="step-title">เจาะเลือดจากเส้นดำ</div><div class="step-text">รัดแขน <strong>3–4 นิ้ว</strong> เหนือบริเวณเจาะ<br><span style="color:var(--red);font-size:11px">ห้ามรัดนานเกิน 1 นาที</span></div></div>
+    <div class="step-card"><div class="step-n">5</div><div class="step-icon" style="background:#f0f9ff"><svg viewBox="0 0 24 24" fill="none" stroke="#32ade6" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="step-title">Order of Draw</div><div class="step-text">เรียงลำดับการใส่เลือดในหลอด: 🔵→🔴→🟢→🟣→⚫</div></div>
+    <div class="step-card"><div class="step-n">6</div><div class="step-icon" style="background:#f0f0ff"><svg viewBox="0 0 24 24" fill="none" stroke="#5e5ce6" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div><div class="step-title">Mix เลือดแบบ Invert</div><div class="step-text">เอียงหลอด 180° กลับไปมาตามจำนวนที่กำหนด (4–10 ครั้ง)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div class="card-title">สิ่งส่งตรวจประเภท Body Fluid — ห้องปฏิบัติการกลาง ภาควิชาพยาธิวิทยาคลินิก</div><div style="font-size:11px;color:var(--text3)">ฉบับปรับปรุง 27 มีนาคม 2567</div></div>
+    <div class="card-b" style="padding:0">
+      <div class="table-wrap" style="border:none;border-radius:0">
+        <table>
+          <thead><tr><th>สิ่งส่งตรวจ</th><th>Cell count & Cell differential count</th><th>การทดสอบทางเคมี</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Pleural effusion (น้ำเจาะปอด)</strong><br>
+              <strong>Peritoneal effusion / Ascites (น้ำเจาะท้อง)</strong><br>
+              <strong>Pericardial effusion (น้ำเจาะหัวใจ)</strong></td>
+              <td>ปริมาณ ≥1 ml<br><span class="tube t-purple" style="display:inline-flex"><span class="tube-dot"></span>ใส่หลอด EDTA</span> และ mix 8–10 ครั้ง</td>
+              <td>ปริมาณ ≥1 ml ภาชนะสะอาด<br><strong>ไม่</strong>ต้องใส่สารกันการแข็งตัว<br><span style="font-size:11px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;display:inline-block;margin-top:3px">⚠️ pH (pleural effusion): ใช้ Blood gas syringe และแช่เย็นขณะนำส่ง</span></td>
+            </tr>
+            <tr>
+              <td><strong>CSF (น้ำเจาะไขสันหลัง)</strong></td>
+              <td colspan="2">ปริมาณ ≥1 ml ภาชนะสะอาด <strong>ไม่</strong>ต้องใส่สารกันการแข็งตัว<br><span style="font-size:11.5px;color:var(--text3)">(กรณีที่ &lt;1 ml สามารถส่งมาก่อน ห้องปฏิบัติการจะพยายามตรวจให้)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Joint fluid (น้ำเจาะข้อ)</strong></td>
+              <td>ปริมาณ ≥1 ml ภาชนะสะอาด<br>ใส่ Sodium heparin 1–2 หยด</td>
+              <td>ปริมาณ ≥1 ml ภาชนะสะอาด<br><strong>ไม่</strong>ต้องใส่สารกันการแข็งตัว</td>
+            </tr>
+            <tr style="background:#fff8f0">
+              <td colspan="3" style="font-size:12px;color:var(--orange)">
+                <strong>⚠️ กรณีที่ Joint fluid ได้ 1 tube</strong> แต่ต้องตรวจทั้ง Cell count &amp; Cell differential count และการทดสอบทางเคมี<br>
+                → <strong>ต้องใส่ Sodium heparin</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Peritoneal dialysis fluid (น้ำล้างช่องท้อง)</strong><br><strong>Bronchoalveolar lavage (น้ำล้างหลอดลมปอด)</strong></td>
+              <td colspan="2">ปริมาณ ≥1 ml ภาชนะสะอาด<br><strong>ไม่</strong>ต้องใส่สารกันการแข็งตัว</td>
+            </tr>
+            <tr style="background:#fff1f2">
+              <td colspan="3" style="font-size:12px;color:var(--red)">
+                <strong>⚠️ หากพบการเก็บที่ไม่เหมาะสม ห้องปฏิบัติการจะปฏิเสธส่งตรวจ</strong> เนื่องจากไม่สามารถทำการตรวจวิเคราะห์ได้<br>
+                สิ่งส่งตรวจอื่นๆ ไม่แนะนำให้ส่งตรวจ แต่หากจำเป็น กรุณาติดต่อห้องปฏิบัติการโดยตรง โทร 97048, 97049
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PATIENT -->
+<div id="page-patient" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Patient Preparation</div>
+    <div class="ph-title">การเตรียมผู้ป่วย</div>
+    <div class="ph-sub" id="patientSub">ข้อกำหนดก่อนเก็บสิ่งส่งตรวจ</div>
+  </div>
+
+  <!-- Dynamic content from Sheet -->
+  <div id="patientContent">
+    <!-- Loading state -->
+    <div class="prep-grid mb-20">
+      <div class="prep-card"><div class="prep-h red">🚫 งดอาหาร 8 ชั่วโมง</div><div class="prep-item">Fasting blood sugar</div></div>
+      <div class="prep-card"><div class="prep-h orange">🚫 งดอาหาร 12 ชั่วโมง</div><div class="prep-item">Triglyceride · Beta-cross Laps</div></div>
+      <div class="prep-card"><div class="prep-h blue">⏰ งดอาหาร ≥4 ชม.</div><div class="prep-item">Total Calcium</div></div>
+      <div class="prep-card"><div class="prep-h purple">⏰ งดอาหาร ≥8 ชม.</div><div class="prep-item">Vitamin B12</div></div>
+      <div class="prep-card"><div class="prep-h teal">🕗 เจาะเวลา 8.00–10.00 น.</div><div class="prep-item">Beta-cross Laps · Osteocalcin · PTH · Total Calcium</div></div>
+      <div class="prep-card"><div class="prep-h green">⏰ เจาะตามเวลาที่แพทย์สั่ง (สูงสุด 6–9 น.)</div><div class="prep-item">Cortisol</div></div>
+    </div>
+    <div class="card mb-20">
+      <div class="card-h"><div class="card-title">ข้อกำหนดยาและอื่นๆ</div></div>
+      <div class="card-b" style="padding:0">
+        <div class="table-wrap" style="border:none;border-radius:0">
+          <table>
+            <thead><tr><th>เงื่อนไข</th><th>รายการตรวจ</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--red);font-weight:600">งด Anticoagulant drug</td><td>Antithrombin activity · Lupus anticoagulant (LA) · Protein C</td></tr>
+              <tr><td style="color:var(--purple);font-weight:600">งดยาคุมกำเนิด 2 เดือน</td><td>Antithrombin activity · Protein S</td></tr>
+              <tr><td style="color:var(--teal);font-weight:600">เจาะเลือดช่วงเวลาเดียวกันทุกวัน</td><td>APTT ratio (เพื่อติดตาม Heparin therapy)</td></tr>
+              <tr><td style="color:var(--orange);font-weight:600">Hct &gt;55%</td><td>นำ tube 3.2% sodium citrate มาปรับลดน้ำยา</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Urine Collection Infographic (always shown) -->
+  <div style="margin-bottom:8px;padding:12px 0 4px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-family:var(--font-en)">Urine Collection</div>
+    <div style="font-size:16px;font-weight:700;color:var(--text);margin-top:2px">วิธีการเก็บปัสสาวะ</div>
+    <div style="font-size:13px;color:var(--text3)">ใช้ภาชนะสะอาด CP-C-210 · เก็บ midstream (ช่วงกลาง)</div>
+  </div>
+  <div class="grid-2 mb-20">
+    <div class="card">
+      <div class="card-h" style="background:linear-gradient(135deg,#fce7f3,#fdf2f8)">
+        <div class="card-title" style="color:#9d174d">👩 วิธีเก็บปัสสาวะ — สตรี</div>
+      </div>
+      <div class="card-b" style="padding:0" id="urineStepsFemale">
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h" style="background:linear-gradient(135deg,#e0f2fe,#eff6ff)">
+        <div class="card-title" style="color:#1e40af">👨 วิธีเก็บปัสสาวะ — ชาย</div>
+      </div>
+      <div class="card-b" style="padding:0" id="urineStepsMale">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ADDON TESTS -->
+<div id="page-addon" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Add-on Tests</div>
+    <div class="ph-title">การขอตรวจเพิ่มหรือขอตรวจซ้ำ</div>
+    <div class="ph-sub" id="addonSub">ห้องปฏิบัติการกลาง อาคารนวมินทรบพิตร ๘๔ พรรษา ชั้น 1 · โทร 02-4197048-9</div>
+  </div>
+  <div id="addonContent">
+    <div class="alert info mb-20">
+      <div class="alert-dot"></div>
+      <div><div class="alert-title">วิธีการขอตรวจเพิ่ม / ขอตรวจซ้ำ</div>
+      <div class="alert-text">ติดต่อโทรศัพท์มายังห้องปฏิบัติการที่ส่งตรวจ เพื่อตรวจสอบว่ามีสิ่งส่งตรวจพอหรือไม่ แล้วเขียนใบขอตรวจพร้อมใส่เลข <strong>Lab number</strong> ส่งมาที่ห้องปฏิบัติการที่เคยส่งไปแล้ว</div></div>
+    </div>
+    <div class="card mb-20">
+      <div class="card-h"><div class="card-title">ระยะเวลาที่สามารถขอตรวจเพิ่ม/ซ้ำได้ (นับตั้งแต่เริ่มเจาะเลือด)</div></div>
+      <div class="card-b" style="padding:0">
+        <div class="table-wrap" style="border:none;border-radius:0">
+          <table><thead><tr><th>ระยะเวลา</th><th>รายการตรวจ</th></tr></thead>
+          <tbody>
+            <tr style="background:#f0fdf4"><td style="font-weight:800;color:#166534;font-size:15px;white-space:nowrap">⏰ 24 ชม.</td><td style="font-size:12.5px;line-height:1.9">Reticulocyte · Slide blood smear · HbA1c · Albumin · Alkaline phosphatase · ALT · Amylase · AST · BUN · Cholesterol · Cortisol · CK-MB mass · CPK · Creatinine · CRP · Cystatin C · Direct bilirubin · Ferritin · FT3 · FT4 · GGT · HDL-C · Haptoglobin · hsCRP · Ketone · LDL-C · Lipase · Magnesium · NT-pro-BNP · Procalcitonin · Phosphorus · Total bilirubin · Troponin-T hs · Total protein · Triglyceride · TSH · Uric acid · <span style="color:#7c3aed">FSH · Estradiol · LH · Prolactin · Progesterone · Testosterone</span> · <span style="color:#d97706">Urine albumin · Urine protein · Osmolality</span></td></tr>
+            <tr style="background:#eff6ff"><td style="font-weight:800;color:#1d4ed8;font-size:15px;white-space:nowrap">⏰ 8 ชม.</td><td style="font-size:12.5px;color:#166534">Total Calcium · PTH · Total Vitamin D</td></tr>
+            <tr style="background:#fdf4ff"><td style="font-weight:800;color:#7c3aed;font-size:15px;white-space:nowrap">⏰ 4 ชม.</td><td style="font-size:12.5px;line-height:1.9"><span style="color:#1d4ed8">CBC · ESR · Lupus AC · Antithrombin · Protein C/S · anti-Xa</span> · PT · APTT · PT-INR · Fibrinogen · D-Dimer · <span style="color:#166534">C-peptide · LDH · Na · K · Cl</span> · <span style="color:#d97706">Urine pregnancy · Urine osmolality</span></td></tr>
+            <tr style="background:#fff8f0"><td style="font-weight:800;color:#c2410c;font-size:15px;white-space:nowrap">⏰ 2 ชม.</td><td style="font-size:12.5px;color:#166534">Insulin · Vitamin B12</td></tr>
+            <tr style="background:#fff1f2"><td style="font-weight:800;color:#b91c1c;font-size:15px;white-space:nowrap">❌ ไม่สามารถขอได้</td><td style="font-size:12.5px">Ammonia · Bicarbonate · Blood gas · COHb · Glucose (Li-heparin) · Folate · MetHb · Ionized Calcium · Lactate · Urine routine</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- SENDING -->
+<div id="page-sending" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Specimen Transport</div>
+    <div class="ph-title">การส่งสิ่งส่งตรวจ</div>
+    <div class="ph-sub" id="sendingSub">ระยะเวลาและเงื่อนไขการนำส่ง</div>
+  </div>
+  <div id="sendingContent">
+    <div class="alert info mb-20">
+      <div class="alert-dot"></div>
+      <div><div class="alert-title">หลักการทั่วไป</div>
+      <div class="alert-text">การส่งสิ่งส่งตรวจมายังห้องปฏิบัติการควรนำส่งด้วยความรวดเร็ว <strong>โดยทั่วไปไม่ควรเกิน 2 ชั่วโมง</strong> หลังเจาะเลือด</div></div>
+    </div>
+    <div class="send-grid">
+      <div class="send-card"><div class="send-h red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>ส่งทันที + ใส่น้ำแข็ง</div><div class="send-list"><div class="send-item" style="color:var(--red)">Ammonia</div><div class="send-item" style="color:var(--red)">Blood gas</div><div class="send-item" style="color:var(--red)">Ionized Calcium</div><div class="send-item" style="color:var(--red)">Lactate</div></div></div>
+      <div class="send-card"><div class="send-h orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>ส่งภายใน 1 ชั่วโมง</div><div class="send-list"><div class="send-item">APTT ratio (Heparin therapy)</div><div class="send-item">Glucose (ไม่ใช้ tube NaF)</div><div class="send-item">Electrolyte</div><div class="send-item">Folate</div><div class="send-item">Lupus anticoagulant</div></div></div>
+      <div class="send-card"><div class="send-h blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>ส่งภายใน 2 ชั่วโมง</div><div class="send-list"><div class="send-item">APTT · CBC · Calcium</div><div class="send-item">Magnesium · Phosphorus · PTH</div></div></div>
+      <div class="send-card"><div class="send-h purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>ห้ามโดนแสง</div><div class="send-list"><div class="send-item">Bilirubin (Total, Direct)</div><div class="send-item">CPK · Folate · Vitamin B₁₂</div></div></div>
+      <div class="send-card" style="grid-column:1/-1"><div class="send-h teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.22 4.22l15.56 15.56M2 12h20M4.22 19.78l15.56-15.56"/></svg>ห้ามใส่น้ำแข็งหรือแช่ตู้เย็น</div><div class="send-list"><div class="send-item">Electrolyte (ห้ามแช่เย็น)</div></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- REJECTION -->
+<div id="page-rejection" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Rejection Criteria</div>
+    <div class="ph-title">เกณฑ์ปฏิเสธสิ่งส่งตรวจ</div>
+    <div class="ph-sub" id="rejectionSub">กรณีที่ห้องปฏิบัติการจะปฏิเสธไม่รับตรวจ</div>
+  </div>
+  <div id="rejectionContent">
+    <div class="alert warn mb-20">
+      <div class="alert-dot"></div>
+      <div><div class="alert-title">ข้อควรทราบ</div><div class="alert-text">ห้องปฏิบัติการอาจปฏิเสธสิ่งส่งตรวจเมื่อเห็นว่าผลการตรวจอาจเชื่อถือไม่ได้ และจะแจ้งบุคลากรทางการแพทย์ที่สั่งตรวจ</div></div>
+    </div>
+    <div class="reject-list">
+      <div class="reject-item"><div class="reject-n">1</div><div class="reject-text"><strong>ติดป้ายไม่ถูกต้อง</strong> — ชื่อในใบส่งตรวจไม่ตรงกับที่ติดบนภาชนะ หรือไม่มีชื่อผู้ป่วยบนภาชนะ</div></div>
+      <div class="reject-item"><div class="reject-n">2</div><div class="reject-text"><strong>ส่งโดยไม่มีใบขอตรวจ</strong></div></div>
+      <div class="reject-item"><div class="reject-n">3</div><div class="reject-text"><strong>ภาชนะหรือสารกันเลือดไม่ถูกต้อง</strong> ตามที่ห้องปฏิบัติการกำหนด</div></div>
+      <div class="reject-item"><div class="reject-n">4</div><div class="reject-text"><strong>สิ่งส่งตรวจหกเลอะภาชนะ</strong> หรือใบขอตรวจ</div></div>
+      <div class="reject-item"><div class="reject-n">5</div><div class="reject-text"><strong>ปริมาณสิ่งส่งตรวจไม่เพียงพอ</strong></div></div>
+      <div class="reject-item"><div class="reject-n">6</div><div class="reject-text"><strong>คุณภาพไม่ได้มาตรฐาน:</strong><br>• ส่งถึงห้องปฏิบัติการช้ากว่ากำหนด<br>• มี clot ใน whole blood หรือ plasma (CBC, PT, APTT, Blood gas, Lactate)<br>• มี hemolysis: AST, ALT, Calcium, CPK, Creatinine, LDH, Potassium, Troponin-T<br>• สัดส่วนเลือดต่อสารกันแข็งไม่ถูกต้อง<br>• อุณหภูมินำส่งไม่เหมาะสม: Lactate, Ammonia, Blood gas</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- STORAGE -->
+<div id="page-storage" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Specimen Storage</div>
+    <div class="ph-title">ระยะเวลาเก็บสิ่งส่งตรวจ</div>
+    <div class="ph-sub" id="storageSub">หลังการตรวจวิเคราะห์เสร็จสิ้น</div>
+  </div>
+  <div id="storageContent">
+    <div class="storage-grid">
+      <div class="info-box">
+        <div class="info-box-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>ห้องปฏิบัติการกลาง</div>
+        <div class="table-wrap" style="border:none;border-radius:0"><table><thead><tr><th>งาน</th><th>ชนิด</th><th>สถานที่</th><th>ระยะเวลา</th></tr></thead><tbody>
+          <tr><td><strong>เคมีคลินิก</strong></td><td>Primary + Secondary tube</td><td>cobas p701</td><td><span class="tag tag-blue">72 ชม.</span></td></tr>
+          <tr><td rowspan="2"><strong>โลหิตวิทยา</strong></td><td>EDTA blood tube</td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-green">48 ชม.</span></td></tr>
+          <tr><td>Slide blood smear</td><td>อุณหภูมิห้อง</td><td><span class="tag tag-blue">7 วัน</span></td></tr>
+          <tr><td><strong>การห้ามเลือด</strong></td><td>Citrated blood tube</td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-green">48 ชม.</span></td></tr>
+          <tr><td rowspan="3"><strong>จุลทรรศน์</strong></td><td>ขวดน้ำเจาะต่างๆ</td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-blue">7 วัน</span></td></tr>
+          <tr><td>Slide smear</td><td>อุณหภูมิห้อง</td><td><span class="tag tag-blue">7 วัน</span></td></tr>
+          <tr><td>กระบอกปัสสาวะ</td><td>อุณหภูมิห้อง</td><td><span class="tag tag-orange">≥8 ชม.</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>ห้องปฏิบัติการพิเศษ</div>
+        <div class="table-wrap" style="border:none;border-radius:0"><table><thead><tr><th>ชนิด</th><th>สถานที่</th><th>ระยะเวลา</th></tr></thead><tbody>
+          <tr><td><strong>Primary tube</strong></td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-blue">14 วัน</span></td></tr>
+          <tr><td rowspan="2"><strong>Aliquot tube (Serum)</strong></td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-green">1 เดือน</span></td></tr>
+          <tr><td>ตู้เย็น −20°C</td><td><span class="tag tag-blue">3 เดือน</span></td></tr>
+          <tr><td rowspan="2"><strong>CSF และ Effusion</strong></td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-orange">3 วัน</span></td></tr>
+          <tr><td>ตู้เย็น −20°C</td><td><span class="tag tag-green">1 เดือน</span></td></tr>
+          <tr><td><strong>Primary tube (Out Lab)</strong></td><td>ตู้เย็น 2–8°C</td><td><span class="tag tag-green">1 เดือน</span></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- BOOK -->
+<div id="page-book" class="page">
+  <div class="ph">
+    <div class="ph-row">
+      <div>
+        <div class="ph-eyebrow">Manual View</div>
+        <div class="ph-title">คู่มือรูปแบบหนังสือ</div>
+      </div>
+      <div class="ph-actions">
+        <button class="btn btn-ghost btn-sm" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          พิมพ์
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="book-wrap">
+    <div class="book-ctrl">
+      <button class="book-ctrl-btn" id="bPrev" onclick="bookGo(-1)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>ก่อนหน้า</button>
+      <span class="book-info">หน้า <span id="bNum">1</span> / <span id="bTotal">4</span></span>
+      <button class="book-ctrl-btn" id="bNext" onclick="bookGo(1)">ถัดไป<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="book-spread" id="bookSpread"></div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="page-chat" class="page">
+  <div class="ph">
+    <div class="ph-row">
+      <div>
+        <div class="ph-eyebrow">AI Assistant</div>
+        <div class="ph-title">AI ถาม-ตอบ</div>
+        <div class="ph-sub">ดึงข้อมูลจาก Google Sheet และตอบคำถามเกี่ยวกับคู่มือ</div>
+      </div>
+      <div id="aiStatus"><span class="status-badge status-loading"><span class="status-dot"></span>โหลดข้อมูล...</span></div>
+    </div>
+  </div>
+  <div class="chat-wrap">
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="msg ai">
+        <div class="msg-av ai">AI</div>
+        <div>
+          <div class="msg-b">สวัสดีครับ 👋 ผมคือ AI ผู้ช่วยคู่มือส่งตรวจ ภาควิชาพยาธิวิทยาคลินิก ศิริราชพยาบาล<br><br>ผมดึงข้อมูลจาก <strong>Google Sheet</strong> ของคุณโดยตรง ดังนั้นคำตอบจะถูกต้องตาม database ล่าสุดเสมอ<br><br>ถามได้เลยครับ เช่น "CBC ใช้ tube อะไร?" หรือ "ค่าอ้างอิง HbA1c คือเท่าไหร่?"</div>
+          <div class="msg-time">เพิ่งเริ่ม</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-footer">
+      <div class="chat-sugs">
+        <button class="chat-sug" onclick="presug(this)">CBC ใช้ tube อะไร?</button>
+        <button class="chat-sug" onclick="presug(this)">Blood gas ส่งภายในกี่ชม.?</button>
+        <button class="chat-sug" onclick="presug(this)">Cortisol งดอาหารไหม?</button>
+        <button class="chat-sug" onclick="presug(this)">Order of Draw คืออะไร?</button>
+        <button class="chat-sug" onclick="presug(this)">NIPT ใช้ tube อะไร?</button>
+      </div>
+      <div class="chat-row">
+        <textarea class="chat-input" id="chatIn" rows="1" placeholder="พิมพ์คำถามที่นี่..." onkeydown="chatKey(event)" oninput="autoH(this)"></textarea>
+        <button class="chat-send" id="chatBtn" onclick="sendChat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page">
+  <div class="ph">
+    <div class="ph-eyebrow">Configuration</div>
+    <div class="ph-title">ตั้งค่าระบบ</div>
+    <div class="ph-sub">เชื่อมต่อ Google Sheet เพื่อให้ AI และตารางดึงข้อมูลได้</div>
+  </div>
+
+  <div class="settings-box">
+    <div class="settings-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18"/></svg>Google Sheet Database</div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Sheet ID</div><div class="s-desc">คัดลอกจาก URL: docs.google.com/spreadsheets/d/<strong>[ID]</strong>/edit</div></div>
+      <input class="s-input" id="sId" type="text" placeholder="1BxiMVs0XRA5nFMdKvBd...">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Google API Key</div><div class="s-desc">Google Cloud Console → APIs &amp; Services → Credentials (เปิด Sheets API)</div></div>
+      <input class="s-input" id="sKey" type="password" placeholder="AIzaSy...">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">ชื่อ Sheet รายการตรวจ</div><div class="s-desc">ชื่อแท็บที่เก็บข้อมูลรายการตรวจ (คอลัมน์ A–N)</div></div>
+      <input class="s-input" id="sName" type="text" placeholder="รายการตรวจ">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">ชื่อ Sheet ข้อมูลหน้าแรก</div><div class="s-desc">ชื่อแท็บที่เก็บข้อมูลชื่อสถาบัน สถานที่ ประวัติเวอร์ชัน — แก้ใน Sheet นี้แล้ว webapp อัพเดทอัตโนมัติ</div></div>
+      <input class="s-input" id="sHome" type="text" placeholder="ข้อมูลหน้าแรก">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Sheet: การเตรียมผู้ป่วย</div><div class="s-desc">ชื่อแท็บตาราง prep cards และข้อกำหนดยา</div></div>
+      <input class="s-input" id="sPatient" type="text" placeholder="การเตรียมผู้ป่วย">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Sheet: การส่งสิ่งส่งตรวจ</div><div class="s-desc">ชื่อแท็บตารางกลุ่มการส่งตรวจ</div></div>
+      <input class="s-input" id="sSending" type="text" placeholder="การส่งสิ่งส่งตรวจ">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Sheet: เกณฑ์ปฏิเสธ</div><div class="s-desc">ชื่อแท็บรายการเกณฑ์ปฏิเสธ</div></div>
+      <input class="s-input" id="sReject" type="text" placeholder="เกณฑ์ปฏิเสธ">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Sheet: ระยะเวลาเก็บรักษา</div><div class="s-desc">ชื่อแท็บตารางระยะเวลาเก็บสิ่งส่งตรวจ</div></div>
+      <input class="s-input" id="sStorage" type="text" placeholder="ระยะเวลาเก็บรักษา">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Sheet: การขอตรวจเพิ่ม</div><div class="s-desc">ชื่อแท็บตารางการขอตรวจเพิ่ม/ซ้ำ</div></div>
+      <input class="s-input" id="sAddon" type="text" placeholder="การขอตรวจเพิ่ม">
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">ทดสอบการเชื่อมต่อ</div></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn btn-blue btn-sm" onclick="saveSettings()">บันทึกและทดสอบ</button>
+        <span id="sStatus" style="font-size:12px;color:var(--text3)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-box">
+    <div class="settings-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>โครงสร้าง Google Sheet — คอลัมน์ A–U (21 คอลัมน์)</div>
+    <div class="s-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+      <div class="table-wrap" style="width:100%">
+        <table>
+          <thead><tr><th>คอลัมน์</th><th>หัวข้อ</th><th>ตัวอย่าง / หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--blue-light)"><td class="td-code">A</td><td><strong>รหัสการตรวจวิเคราะห์ (Lab Code)</strong></td><td>CBC, HBA1C, UA, PT</td></tr>
+            <tr style="background:var(--blue-light)"><td class="td-code">B</td><td><strong>รหัสกรมบัญชีกลาง (Gov. Code)</strong></td><td>12001, 21003</td></tr>
+            <tr><td class="td-code">C</td><td>รายการตรวจวิเคราะห์</td><td>Complete Blood Count (CBC)</td></tr>
+            <tr><td class="td-code">D</td><td>หลักการทดสอบ (สรุปสั้น)</td><td>Laser flow cytometry</td></tr>
+            <tr><td class="td-code">E</td><td>สิ่งตัวอย่างส่งตรวจ</td><td>EDTA blood 2 mL (Purple)</td></tr>
+            <tr><td class="td-code">F</td><td>ชนิด Tube</td><td>purple / green / blue / red / gray</td></tr>
+            <tr><td class="td-code">G</td><td>ปริมาณ</td><td>2 mL, 4 mL</td></tr>
+            <tr><td class="td-code">H</td><td>ค่าอ้างอิง (Reference Range)</td><td>WBC: 4.5–11.0 × 10³/µL</td></tr>
+            <tr><td class="td-code">I</td><td>ค่าวิกฤต (Critical Value)</td><td>WBC &lt;2.0 หรือ &gt;30.0</td></tr>
+            <tr><td class="td-code">J</td><td>วัน-เวลาที่วิเคราะห์</td><td>ทุกวัน ตลอด 24 ชม.</td></tr>
+            <tr><td class="td-code">K</td><td>วัน-เวลาที่รับผล (TAT สรุป)</td><td>1–2 ชม.</td></tr>
+            <tr><td class="td-code">L</td><td>ค่าบริการ (บาท)</td><td>250</td></tr>
+            <tr><td class="td-code">M</td><td>หมวด (Category)</td><td>chemistry / hematology / coag / micro</td></tr>
+            <tr><td class="td-code">N</td><td>หมายเหตุ (สั้น)</td><td>งดอาหาร 8 ชม., ⚠️ ส่งทันที</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">O</td><td><strong>Indication (ข้อบ่งชี้)</strong></td><td>เพื่อตรวจหาโรคเบาหวาน, ติดตามการรักษา...</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">P</td><td><strong>TAT แยก Total / Analytical</strong></td><td>Total TAT: 2½ ชม. | Analytical TAT: 1½ ชม.</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">Q</td><td><strong>การเตรียมผู้ป่วย (แบบละเอียด)</strong></td><td>งดอาหาร 8 ชม., งดยาคุมกำเนิด 2 เดือน...</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">R</td><td><strong>Methodology (แบบละเอียด)</strong></td><td>หลักการตรวจ, เครื่องมือที่ใช้...</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">S</td><td><strong>Interference (False positive/negative)</strong></td><td>False positive: Hemolysis → ↑ K+</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">T</td><td><strong>Rejection criteria (เฉพาะรายการ)</strong></td><td>ห้ามส่งหากมี clot, lipemia...</td></tr>
+            <tr style="background:#f0fdf4"><td class="td-code" style="color:var(--green)">U</td><td><strong>Comment / หมายเหตุเพิ่มเติม</strong></td><td>ข้อมูลเพิ่มเติม, การแปลผล...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;color:var(--green);font-weight:600;padding:8px 12px;background:var(--green-light);border-radius:8px;width:100%">
+        ✅ คอลัมน์ A–N = ข้อมูลพื้นฐาน (ต้องกรอก) &nbsp;|&nbsp; คอลัมน์ O–U = ข้อมูลละเอียด (กรอกเพิ่มได้ตามต้องการ — webapp จะแสดงเฉพาะที่มีข้อมูล)
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-box">
+    <div class="settings-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>AI ถาม-ตอบ</div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">วิธีการทำงาน</div><div class="s-desc">AI จะดึงข้อมูลจาก Google Sheet ของคุณทั้งหมด แล้วส่งให้ Claude วิเคราะห์และตอบคำถาม ข้อมูลจะถูกต้องตาม database ล่าสุดเสมอ</div></div>
+      <span class="status-badge status-online"><span class="status-dot"></span>พร้อมใช้งาน</span>
+    </div>
+    <div class="s-row">
+      <div class="s-info"><div class="s-label">Offline Fallback</div><div class="s-desc">เมื่อ Google Sheet ไม่สามารถเชื่อมต่อ จะใช้ข้อมูล Cache ล่าสุดที่บันทึกไว้โดยอัตโนมัติ</div></div>
+      <span class="status-badge status-loading"><span class="status-dot"></span>Cache mode</span>
+    </div>
+  </div>
+</div>
+
+</main><!-- /main -->
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="ov" onclick="ovClose(event)">
+  <div class="modal" id="modal">
+    <div class="modal-h">
+      <div>
+        <div style="font-size:18px;font-weight:700;letter-spacing:-.4px" id="mTitle"></div>
+        <div style="font-size:12.5px;color:var(--text3);margin-top:3px" id="mSub"></div>
+      </div>
+      <button class="modal-close" onclick="ovOff()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-b" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let allData = [];
+let filteredData = [];
+let currentTab = 'chemistry';
+let bPage = 0;
+const BPAGES = 4;
+let chatHist = [];
+let aiLoading = false;
+let SHEET_ID  = localStorage.getItem('labSId')  || '';
+let API_KEY   = localStorage.getItem('labKey')   || '';
+let SH_NAME   = localStorage.getItem('labName')  || 'รายการตรวจ';
+let SH_HOME   = localStorage.getItem('labHome')  || 'ข้อมูลหน้าแรก';
+// 5 separate manual sheets
+let SH_PATIENT  = localStorage.getItem('labPatient')  || 'การเตรียมผู้ป่วย';
+let SH_SENDING  = localStorage.getItem('labSending')  || 'การส่งสิ่งส่งตรวจ';
+let SH_REJECT   = localStorage.getItem('labReject')   || 'เกณฑ์ปฏิเสธ';
+let SH_STORAGE  = localStorage.getItem('labStorage')  || 'ระยะเวลาเก็บรักษา';
+let SH_ADDON    = localStorage.getItem('labAddon')    || 'การขอตรวจเพิ่ม';
+
+// ── NAV ──
+function nav(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick')?.includes("'" + id + "'")) n.classList.add('active');
+  });
+  if (id === 'tests') loadTests();
+  if (id === 'book') renderBook();
+  if (id === 'settings') loadSettingsUI();
+  if (id === 'chat') initChat();
+}
+
+// ── SETTINGS ──
+function loadSettingsUI() {
+  document.getElementById('sId').value   = SHEET_ID;
+  document.getElementById('sKey').value  = API_KEY;
+  document.getElementById('sName').value = SH_NAME;
+  document.getElementById('sHome').value = SH_HOME;
+  const sp = document.getElementById('sPatient'); if(sp) sp.value = SH_PATIENT;
+  const ss = document.getElementById('sSending'); if(ss) ss.value = SH_SENDING;
+  const sr = document.getElementById('sReject');  if(sr) sr.value = SH_REJECT;
+  const st = document.getElementById('sStorage'); if(st) st.value = SH_STORAGE;
+  const sa = document.getElementById('sAddon');   if(sa) sa.value = SH_ADDON;
+}
+function saveSettings() {
+  SHEET_ID = document.getElementById('sId').value.trim();
+  API_KEY  = document.getElementById('sKey').value.trim();
+  SH_NAME  = document.getElementById('sName').value.trim() || 'รายการตรวจ';
+  SH_HOME  = document.getElementById('sHome').value.trim() || 'ข้อมูลหน้าแรก';
+  localStorage.setItem('labSId',  SHEET_ID);
+  localStorage.setItem('labKey',  API_KEY);
+  localStorage.setItem('labName', SH_NAME);
+  localStorage.setItem('labHome', SH_HOME);
+  SH_PATIENT = document.getElementById('sPatient')?.value.trim() || 'การเตรียมผู้ป่วย';
+  SH_SENDING = document.getElementById('sSending')?.value.trim() || 'การส่งสิ่งส่งตรวจ';
+  SH_REJECT  = document.getElementById('sReject')?.value.trim()  || 'เกณฑ์ปฏิเสธ';
+  SH_STORAGE = document.getElementById('sStorage')?.value.trim() || 'ระยะเวลาเก็บรักษา';
+  SH_ADDON   = document.getElementById('sAddon')?.value.trim()   || 'การขอตรวจเพิ่ม';
+  ['labPatient','labSending','labReject','labStorage','labAddon'].forEach((k,i)=>{
+    localStorage.setItem(k,[SH_PATIENT,SH_SENDING,SH_REJECT,SH_STORAGE,SH_ADDON][i]);
+  });
+  const st = document.getElementById('sStatus');
+  st.textContent = '⏳ กำลังทดสอบ...'; st.style.color = 'var(--text3)';
+  Promise.all([fetchSheet(), fetchHomeInfo(), fetchManualData()])
+    .then(([tests]) => {
+      st.textContent = `✅ สำเร็จ! รายการตรวจ ${tests?.length||0} รายการ · โหลดข้อมูลหน้าแรกแล้ว`;
+      st.style.color = 'var(--green)';
+    })
+    .catch(() => { st.textContent = '❌ เชื่อมต่อไม่สำเร็จ — ตรวจสอบ Sheet ID / API Key'; st.style.color = 'var(--red)'; });
+}
+
+// ── FETCH HOME INFO FROM SHEET ──
+async function fetchHomeInfo() {
+  if (!SHEET_ID || !API_KEY) return null;
+  try {
+    const r = encodeURIComponent(SH_HOME + '!A1:C50');
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${r}?key=${API_KEY}`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const j = await res.json();
+    const rows = j.values || [];
+    // Parse key-value pairs: column A = key, column B = value, column C = extra
+    const data = {};
+    rows.forEach(row => { if (row[0]) data[row[0].trim()] = { val: row[1]||'', extra: row[2]||'' }; });
+    applyHomeInfo(data);
+    localStorage.setItem('labHomeCache', JSON.stringify(data));
+    return data;
+  } catch(e) { return null; }
+}
+
+function applyHomeInfo(data) {
+  const set = (id, val) => { const el=document.getElementById(id); if(el&&val) el.textContent=val; };
+  const setHTML = (id, val) => { const el=document.getElementById(id); if(el&&val) el.innerHTML=val; };
+
+  // Banner
+  set('homeDeptLabel',   data['dept_label']?.val);
+  set('homeTitle',       data['title']?.val);
+  set('homeTitleEn',     data['title_en']?.val);
+  set('homeVersion',     data['version']?.val);
+  set('homeVersionDate', data['version_date']?.val);
+
+  // Locations
+  if (data['loc1_name']?.val) {
+    set('loc1Name', data['loc1_name'].val);
+    set('loc1Addr', data['loc1_addr']?.val);
+    set('loc1Tel',  data['loc1_tel']?.val);
+  }
+  if (data['loc2_name']?.val) {
+    set('loc2Name', data['loc2_name'].val);
+    set('loc2Addr', data['loc2_addr']?.val);
+    set('loc2Tel',  data['loc2_tel']?.val);
+  }
+  if (data['loc3_name']?.val) {
+    set('loc3Name', data['loc3_name'].val);
+    set('loc3Addr', data['loc3_addr']?.val);
+    set('loc3Sub',  data['loc3_sub']?.val);
+  }
+  set('homeHours', data['service_hours']?.val);
+
+  // Version history — dynamically populate
+  const verContainer = document.getElementById('versionHistory');
+  if (verContainer) {
+    const verKeys = Object.keys(data).filter(k => k.startsWith('ver_')).sort().reverse();
+    if (verKeys.length > 0) {
+      verContainer.innerHTML = verKeys.map(k => {
+        const [vnum, vdate] = k.replace('ver_','').split('|').map(s=>s.trim());
+        const vdesc = data[k].val;
+        const isCurrent = k === verKeys[0];
+        return `<div class="info-row">
+          <span class="info-key" ${isCurrent?'style="color:var(--blue);font-weight:700"':''}>
+            ${vnum} ${vdate ? '('+vdate+')' : ''}
+          </span>
+          <span class="info-val">${vdesc}</span>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // Alert bar (late results)
+  if (data['alert_1100']?.val) {
+    const el = document.getElementById('alertLate1100');
+    if (el) el.textContent = data['alert_1100'].val;
+  }
+  if (data['alert_2300']?.val) {
+    const el = document.getElementById('alertLate2300');
+    if (el) el.textContent = data['alert_2300'].val;
+  }
+}
+
+// ── FETCH SHEET ──
+async function fetchSheet() {
+  if (!SHEET_ID || !API_KEY) throw new Error('no creds');
+  const r = encodeURIComponent(SH_NAME + '!A2:U');
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${r}?key=${API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(res.status);
+  const j = await res.json();
+  return (j.values || []).map(r => ({
+    labCode:     r[0]||'',   // A: รหัสการตรวจวิเคราะห์
+    govCode:     r[1]||'',   // B: รหัสกรมบัญชีกลาง
+    name:        r[2]||'',   // C: รายการตรวจวิเคราะห์
+    method:      r[3]||'',   // D: หลักการทดสอบ (สรุป)
+    specimen:    r[4]||'',   // E: สิ่งตัวอย่างส่งตรวจ
+    tube:       (r[5]||'').toLowerCase(), // F: ชนิด Tube
+    volume:      r[6]||'',   // G: ปริมาณ
+    ref:         r[7]||'',   // H: ค่าอ้างอิง
+    critical:    r[8]||'',   // I: ค่าวิกฤต
+    analyzeTime: r[9]||'',   // J: วัน-เวลาที่วิเคราะห์
+    resultTime:  r[10]||'',  // K: วัน-เวลาที่รับผล (TAT)
+    price:       r[11]||'',  // L: ค่าบริการ
+    cat:        (r[12]||'chemistry').toLowerCase(), // M: หมวด
+    note:        r[13]||'',  // N: หมายเหตุ
+    // ── ข้อมูลละเอียด (O–U) ──
+    indication:  r[14]||'',  // O: ข้อบ่งชี้ (Indication)
+    tatDetail:   r[15]||'',  // P: TAT แยก Total / Analytical
+    prepDetail:  r[16]||'',  // Q: การเตรียมผู้ป่วยแบบละเอียด
+    methodDetail:r[17]||'',  // R: หลักการ/วิธีวิเคราะห์แบบละเอียด
+    interference:r[18]||'',  // S: Interference (False positive/negative)
+    rejection:   r[19]||'',  // T: เกณฑ์ปฏิเสธ (เฉพาะรายการ)
+    comment:     r[20]||''   // U: Comment / หมายเหตุเพิ่มเติม
+  }));
+}
+
+// ── DEMO DATA ──
+function demoData() {
+  return [
+    {labCode:'CBC',   govCode:'12001',name:'Complete Blood Count (CBC)',method:'Laser flow cytometry',specimen:'EDTA whole blood (Purple tube)',tube:'purple',volume:'2 mL',ref:'WBC 4.5–11.0, Hgb 13.5–17.5, Plt 150–400 ×10³/µL',critical:'WBC <2.0 หรือ >30.0',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'1–2 ชม.',price:'250',cat:'hematology',note:''},
+    {labCode:'ESR',   govCode:'12002',name:'ESR (Erythrocyte Sedimentation Rate)',method:'Westergren',specimen:'EDTA blood (Purple tube)',tube:'purple',volume:'2 mL',ref:'ชาย <15, หญิง <20 mm/hr',critical:'',analyzeTime:'จ–ศ 08:00–20:00 น.',resultTime:'2–3 ชม.',price:'100',cat:'hematology',note:''},
+    {labCode:'RETIC', govCode:'12003',name:'Reticulocyte Count',method:'Flow cytometry',specimen:'EDTA blood (Purple tube)',tube:'purple',volume:'2 mL',ref:'0.5–2.5%',critical:'',analyzeTime:'จ–ศ 08:00–20:00 น.',resultTime:'3–4 ชม.',price:'180',cat:'hematology',note:''},
+    {labCode:'MAL',   govCode:'12004',name:'Malaria (Rapid test)',method:'Immunochromatography',specimen:'EDTA blood (Purple tube)',tube:'purple',volume:'2 mL',ref:'Negative',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'1 ชม.',price:'350',cat:'hematology',note:''},
+    {labCode:'FBS',   govCode:'21001',name:'Glucose (Fasting Blood Sugar)',method:'Hexokinase method',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'70–100 mg/dL (งดอาหาร 8 ชม.)',critical:'<50 หรือ >500 mg/dL',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'1 ชม.',price:'100',cat:'chemistry',note:'งดอาหาร 8 ชั่วโมง'},
+    {labCode:'HBA1C', govCode:'21002',name:'HbA1c (Glycated Hemoglobin)',method:'Ion-exchange HPLC',specimen:'EDTA blood (Purple tube)',tube:'purple',volume:'2 mL',ref:'<5.7% ปกติ | 5.7–6.4% Pre-diabetes | ≥6.5% Diabetes',critical:'',analyzeTime:'จ–ศ 08:00–20:00 น.',resultTime:'4–6 ชม.',price:'380',cat:'chemistry',note:'ไม่ต้องงดอาหาร'},
+    {labCode:'CR',    govCode:'21003',name:'Creatinine',method:'Enzymatic (IDMS traceable)',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'ชาย 0.7–1.2, หญิง 0.5–1.0 mg/dL',critical:'>10.0 mg/dL',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'120',cat:'chemistry',note:''},
+    {labCode:'ELEC',  govCode:'21004',name:'Electrolyte (Na, K, Cl, HCO₃)',method:'Ion-selective electrode',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'Na 136–145 | K 3.5–5.0 | Cl 98–107 | HCO₃ 22–29 mmol/L',critical:'K <2.5 หรือ >6.5 | Na <120 หรือ >160',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'1 ชม.',price:'220',cat:'chemistry',note:'ส่งภายใน 1 ชม. ห้ามแช่เย็น'},
+    {labCode:'ALT',   govCode:'21005',name:'ALT (SGPT)',method:'IFCC enzymatic',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'ชาย <45, หญิง <35 U/L',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'90',cat:'chemistry',note:''},
+    {labCode:'AST',   govCode:'21006',name:'AST (SGOT)',method:'IFCC enzymatic',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'ชาย <40, หญิง <32 U/L',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'90',cat:'chemistry',note:''},
+    {labCode:'CA',    govCode:'21007',name:'Calcium (Total)',method:'Arsenazo III',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'8.6–10.2 mg/dL',critical:'<7.0 หรือ >13.0 mg/dL',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'130',cat:'chemistry',note:'ควรงดอาหาร ≥4 ชม.'},
+    {labCode:'NH3',   govCode:'21008',name:'Ammonia (NH₃)',method:'Enzymatic UV',specimen:'EDTA blood on ice (Purple tube)',tube:'purple',volume:'2 mL',ref:'15–45 µmol/L',critical:'>150 µmol/L',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'1–2 ชม.',price:'350',cat:'chemistry',note:'⚠️ ส่งทันที ใส่น้ำแข็งขณะนำส่ง'},
+    {labCode:'ABG',   govCode:'21009',name:'Blood gas (ABG)',method:'Ion-selective electrode',specimen:'Heparinized syringe on ice',tube:'blue',volume:'1 mL',ref:'pH 7.35–7.45 | pCO₂ 35–45 | pO₂ 80–100 mmHg',critical:'pH <7.20 หรือ >7.60',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'30 นาที',price:'280',cat:'chemistry',note:'⚠️ ส่งทันที ใส่น้ำแข็ง'},
+    {labCode:'TSH',   govCode:'21010',name:'TSH (Thyroid Stimulating Hormone)',method:'ECLIA',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'0.27–4.20 mIU/L',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'4–6 ชม.',price:'350',cat:'chemistry',note:''},
+    {labCode:'CHOL',  govCode:'21011',name:'Cholesterol (Total)',method:'Enzymatic colorimetric',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'<200 mg/dL',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'100',cat:'chemistry',note:''},
+    {labCode:'TG',    govCode:'21012',name:'Triglyceride',method:'Enzymatic colorimetric',specimen:'Li-heparin (Green tube)',tube:'green',volume:'4 mL',ref:'<150 mg/dL',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'100',cat:'chemistry',note:'งดอาหาร 12 ชั่วโมง'},
+    {labCode:'PT',    govCode:'31001',name:'Prothrombin Time (PT/INR)',method:'Optical clot detection',specimen:'Sodium citrate (Blue tube)',tube:'blue',volume:'2.7 mL',ref:'PT 11–13 วิ | INR 0.9–1.1',critical:'INR >5.0',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'200',cat:'coag',note:''},
+    {labCode:'APTT',  govCode:'31002',name:'APTT',method:'Optical clot detection',specimen:'Sodium citrate (Blue tube)',tube:'blue',volume:'2.7 mL',ref:'25–35 วินาที',critical:'>100 วินาที',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2 ชม.',price:'200',cat:'coag',note:'ส่งภายใน 2 ชม.'},
+    {labCode:'DDIM',  govCode:'31003',name:'D-Dimer',method:'Immunoturbidimetric',specimen:'Sodium citrate (Blue tube)',tube:'blue',volume:'2.7 mL',ref:'<0.5 µg/mL FEU',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2–4 ชม.',price:'450',cat:'coag',note:''},
+    {labCode:'FIB',   govCode:'31004',name:'Fibrinogen',method:'Clauss method',specimen:'Sodium citrate (Blue tube)',tube:'blue',volume:'2.7 mL',ref:'2.0–4.0 g/L',critical:'<1.0 g/L',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2–4 ชม.',price:'280',cat:'coag',note:''},
+    {labCode:'UA',    govCode:'41001',name:'Urinalysis (UA)',method:'Urine reagent strip (UC-3500 / cobas u411) + Microscopy (UF-5000 / manual)',specimen:'Urine midstream clean catch (ภาชนะสะอาด CP-C-210)',tube:'',volume:'15–20 mL',ref:'Chemical: pH 5–9, Glucose/Protein/Ketone/Blood/Bilirubin NEG, S.G. 1.000–1.050\nMicroscopic: WBC/RBC ช่วง /HPF',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'Total 2½ ชม. | Analytical 1½ ชม.',price:'80',cat:'micro',note:'ส่งภายใน 1 ชม. หลังเก็บ | แช่เย็นได้ไม่เกิน 4 ชม. | ปริมาณ <1 mL ปฏิเสธ'},
+    {labCode:'BF',    govCode:'41002',name:'Body fluid cell count & differential',method:'Manual counting',specimen:'Body fluid (EDTA tube)',tube:'purple',volume:'≥1 mL',ref:'ดูรายงาน',critical:'',analyzeTime:'ทุกวัน ตลอด 24 ชม.',resultTime:'2–4 ชม.',price:'250',cat:'micro',note:''},
+  ];
+}
+
+// ── LOAD TESTS ──
+async function loadTests() {
+  const st = document.getElementById('sheetStatus');
+  if (SHEET_ID && API_KEY) {
+    st.textContent = '⏳ กำลังโหลดจาก Google Sheet...';
+    try {
+      allData = await fetchSheet();
+      localStorage.setItem('labCache', JSON.stringify(allData));
+      st.textContent = `✅ โหลดสำเร็จ ${allData.length} รายการ จาก Google Sheet`;
+      updateAIStatus('online');
+    } catch(e) {
+      const cached = localStorage.getItem('labCache');
+      if (cached) { allData = JSON.parse(cached); st.textContent = '⚠️ ใช้ข้อมูล Cache (Google Sheet ไม่พร้อม)'; updateAIStatus('loading'); }
+      else { allData = demoData(); st.textContent = 'ℹ️ ข้อมูลตัวอย่าง — กรุณาตั้งค่า Google Sheet'; updateAIStatus('offline'); }
+    }
+  } else {
+    const cached = localStorage.getItem('labCache');
+    if (cached) { allData = JSON.parse(cached); st.textContent = `ℹ️ ใช้ข้อมูล Cache — ตั้งค่า Google Sheet เพื่ออัพเดท`; updateAIStatus('loading'); }
+    else { allData = demoData(); st.textContent = 'ℹ️ ข้อมูลตัวอย่าง — กรุณาตั้งค่า Google Sheet ในหน้าตั้งค่า'; updateAIStatus('offline'); }
+  }
+  renderTable();
+  // อัพเดทจำนวนรายการใน banner
+  const tc = document.getElementById('totalTestCount');
+  if (tc && allData.length) tc.textContent = allData.length;
+}
+function updateAIStatus(s) {
+  const el = document.getElementById('aiStatus');
+  if (!el) return;
+  const map = {online:'<span class="status-badge status-online"><span class="status-dot"></span>Google Sheet เชื่อมต่อแล้ว</span>',loading:'<span class="status-badge status-loading"><span class="status-dot"></span>ใช้ข้อมูล Cache</span>',offline:'<span class="status-badge status-offline"><span class="status-dot"></span>ข้อมูลตัวอย่าง</span>'};
+  el.innerHTML = map[s] || '';
+}
+
+// ── RENDER TABLE ──
+const TC = {purple:'t-purple',green:'t-green',blue:'t-blue',red:'t-red',gray:'t-gray',yellow:'t-yellow'};
+const TN = {purple:'🟣 สีม่วง',green:'🟢 สีเขียว',blue:'🔵 สีฟ้า',red:'🔴 สีแดง',gray:'⚫ สีเทา',yellow:'🟡 พิเศษ'};
+
+function switchTab(t, el) {
+  currentTab = t;
+  document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+}
+function renderTable() {
+  let data = currentTab === 'all' ? allData : allData.filter(d => d.cat === currentTab);
+  const q = (document.getElementById('testQ')?.value || '').toLowerCase();
+  const tube = document.getElementById('testTube')?.value || '';
+  if (q) data = data.filter(d =>
+    d.name.toLowerCase().includes(q) ||
+    (d.labCode||'').toLowerCase().includes(q) ||
+    (d.govCode||'').includes(q)
+  );
+  if (tube) data = data.filter(d => d.tube === tube);
+  filteredData = data;
+  document.getElementById('filterCount').textContent = data.length + ' รายการ';
+  const tbody = document.getElementById('testBody');
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="empty-title">ไม่พบรายการตรวจ</div><div class="empty-sub">ลองเปลี่ยนคำค้นหา</div></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((d,i) => `
+    <tr>
+      <td>
+        <span class="td-code" style="font-size:11px">${d.labCode||'—'}</span>
+      </td>
+      <td>
+        <span class="td-code" style="color:var(--text3);font-size:11px">${d.govCode||'—'}</span>
+      </td>
+      <td>
+        <div class="td-name">${d.name}</div>
+        ${d.note ? `<div class="td-note">⚠️ ${d.note}</div>` : ''}
+      </td>
+      <td><span class="td-small">${d.method||'—'}</span></td>
+      <td>
+        ${d.tube ? `<span class="tube ${TC[d.tube]||'t-gray'}"><span class="tube-dot"></span>${TN[d.tube]||d.tube}</span>` : `<span class="td-small">${d.specimen||'—'}</span>`}
+        ${d.volume ? `<div style="font-size:10.5px;color:var(--text4);margin-top:2px">${d.volume}</div>` : ''}
+        ${d.note?.includes('น้ำแข็ง')||d.note?.includes('ice') ? '<div style="font-size:10.5px;color:var(--red);margin-top:2px">❄️ ใส่น้ำแข็ง</div>' : ''}
+      </td>
+      <td><span class="td-small">${d.ref||'—'}</span></td>
+      <td><span class="td-small">${d.analyzeTime||'—'}</span></td>
+      <td><span class="td-small">${d.resultTime||'—'}</span></td>
+      <td style="font-weight:700;color:var(--blue);font-family:var(--font-en)">${d.price ? d.price+' ฿' : '—'}</td>
+      <td><button class="btn btn-ghost btn-xs" onclick="showDetail(${i})">ดู</button></td>
+    </tr>
+  `).join('');
+}
+
+// ── DETAIL MODAL ──
+function showDetail(i) {
+  const d = filteredData[i];
+  const safe = s => (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+
+  document.getElementById('mTitle').textContent = d.name;
+  document.getElementById('mSub').textContent =
+    (d.labCode ? 'Lab Code: '+d.labCode+'  ·  ' : '') + 'รหัสกรมบัญชีกลาง: '+(d.govCode||'—');
+
+  const tubeHtml = d.tube
+    ? `<span class="tube ${TC[d.tube]||'t-gray'}" style="margin-left:6px"><span class="tube-dot"></span>${TN[d.tube]}</span>` : '';
+  const volHtml  = d.volume ? `<span style="font-size:12px;color:var(--text3);margin-left:6px">${d.volume}</span>` : '';
+
+  // Build sections — only render if data exists
+  const sec = (title, color, content) =>
+    `<div class="modal-sec">
+      <div class="modal-sec-title" style="color:${color||'var(--blue)'}">${title}</div>
+      ${content}
+    </div>`;
+
+  const field = (label, val, full=false, redVal=false) =>
+    val ? `<div class="mf${full?' full':''}">
+      <div class="mf-label">${label}</div>
+      <div class="mf-val"${redVal?' style="color:var(--red)"':''}>${safe(val)}</div>
+    </div>` : '';
+
+  const textBlock = val =>
+    `<div style="font-size:13px;color:var(--text2);line-height:1.8;padding:10px 12px;background:#f9fafb;border-radius:8px">${safe(val)}</div>`;
+
+  document.getElementById('mBody').innerHTML = `
+    <div class="modal-grid">
+      ${field('รหัสการตรวจวิเคราะห์ (Lab Code)', d.labCode)}
+      ${field('รหัสกรมบัญชีกลาง (Gov. Code)', d.govCode)}
+      ${field('ค่าบริการ', d.price ? d.price+' บาท' : '')}
+      ${field('หมวด', d.cat)}
+      <div class="mf full">
+        <div class="mf-label">หลักการ / วิธีวิเคราะห์ (สรุป)</div>
+        <div class="mf-val">${safe(d.method)||'—'}</div>
+      </div>
+      <div class="mf full">
+        <div class="mf-label">สิ่งตัวอย่างส่งตรวจ</div>
+        <div class="mf-val">${safe(d.specimen)||'—'}${tubeHtml}${volHtml}</div>
+      </div>
+      <div class="mf full">
+        <div class="mf-label">ค่าอ้างอิง (Reference Range)</div>
+        <div class="mf-val">${safe(d.ref)||'—'}</div>
+      </div>
+      ${d.critical ? `<div class="mf full"><div class="mf-label">ค่าวิกฤต (Critical Value)</div><div class="mf-val" style="color:var(--red)">⚠️ ${safe(d.critical)}</div></div>` : ''}
+      ${field('วัน-เวลาที่วิเคราะห์', d.analyzeTime)}
+      ${field('วัน-เวลาที่รับผล (TAT)', d.resultTime)}
+      ${d.note ? `<div class="mf full"><div class="mf-label">หมายเหตุ</div><div class="mf-val" style="color:var(--orange)">⚠️ ${safe(d.note)}</div></div>` : ''}
+    </div>
+
+    ${d.indication ? sec('📋 ข้อบ่งชี้ (Indication)', '#047857', textBlock(d.indication)) : ''}
+    ${d.tatDetail  ? sec('⏱ TAT — Total / Analytical', '#1d4ed8', textBlock(d.tatDetail)) : ''}
+    ${d.prepDetail ? sec('👤 การเตรียมผู้ป่วย (Patient Preparation)', '#c2410c', textBlock(d.prepDetail)) : ''}
+    ${d.methodDetail ? sec('🔬 หลักการวิเคราะห์ (Methodology) แบบละเอียด', '#6d28d9',
+        `<div style="font-size:13px;color:var(--text2);line-height:1.8;padding:10px 12px;background:#fdf4ff;border-radius:8px">${safe(d.methodDetail)}</div>`) : ''}
+    ${d.interference ? sec('⚠️ Interference (False positive / False negative)', '#b45309',
+        `<div style="font-size:13px;color:var(--text2);line-height:1.8;padding:10px 12px;background:#fffbeb;border-radius:8px">${safe(d.interference)}</div>`) : ''}
+    ${d.rejection ? sec('🚫 เกณฑ์ปฏิเสธสิ่งส่งตรวจ (เฉพาะรายการ)', '#b91c1c',
+        `<div style="font-size:13px;color:var(--red);line-height:1.8;padding:10px 12px;background:#fff1f2;border-radius:8px">${safe(d.rejection)}</div>`) : ''}
+    ${d.comment ? sec('💬 Comment / หมายเหตุเพิ่มเติม', '#374151', textBlock(d.comment)) : ''}
+
+    <div class="modal-sec">
+      <div class="modal-sec-title">ถาม AI เพิ่มเติม</div>
+      <button class="btn btn-blue btn-sm" onclick="ovOff();askAbout('${d.name.replace(/['"]/g,'')}')">
+        🤖 ถาม AI เกี่ยวกับ ${d.name.split('(')[0].trim()}
+      </button>
+    </div>
+  `;
+  document.getElementById('ov').classList.add('open');
+}
+function ovClose(e) { if (e.target===document.getElementById('ov')) ovOff(); }
+function ovOff() { document.getElementById('ov').classList.remove('open'); }
+
+// ── BOOK ──
+const BDATA = [
+  {lt:'ข้อมูลทั่วไป',rt:'ประวัติการปรับปรุง',
+   l:`<div class="book-sec">สถานที่ & เวลาบริการ</div>
+   <table class="book-tbl"><thead><tr><th>ห้องปฏิบัติการ</th><th>สถานที่</th><th>โทรศัพท์</th></tr></thead>
+   <tbody><tr><td>ห้องเจาะเลือด</td><td>นวมินทรบพิตร ชั้น 1</td><td>40047</td></tr>
+   <tr><td>ห้องปฏิบัติการกลาง</td><td>นวมินทรบพิตร ชั้น 1</td><td>4197048-9</td></tr>
+   <tr><td>ห้องปฏิบัติการพิเศษ</td><td>SIMR ชั้น 8</td><td>—</td></tr>
+   </tbody></table>
+   <div class="book-sec">หมวดการทดสอบ</div>
+   <table class="book-tbl"><thead><tr><th>หมวด</th><th>ตัวอย่างรายการตรวจ</th></tr></thead>
+   <tbody>
+   <tr><td>🧪 เคมีคลินิก</td><td>Glucose, Creatinine, Electrolyte, LFT</td></tr>
+   <tr><td>🔴 โลหิตวิทยา</td><td>CBC, ESR, Reticulocyte, Malaria</td></tr>
+   <tr><td>🩸 การห้ามเลือด</td><td>PT, APTT, D-Dimer, Fibrinogen</td></tr>
+   <tr><td>🔬 จุลทรรศน์</td><td>UA, Body fluid, Urine culture</td></tr>
+   <tr><td>🧬 โมเลกุล</td><td>EGFR, KRAS, BRAF, NIPT</td></tr>
+   </tbody></table>`,
+   r:`<div class="book-sec">บันทึกการปรับปรุง</div>
+   <table class="book-tbl"><thead><tr><th>เวอร์ชัน</th><th>วันที่</th><th>สาระสำคัญ</th></tr></thead>
+   <tbody>
+   <tr><td><strong>V.17</strong></td><td>23 ก.ค. 68</td><td>ทบทวนและปรับปรุงประจำปี 2568</td></tr>
+   <tr><td>V.16</td><td>25 ก.ค. 67</td><td>ทบทวนและปรับปรุงประจำปี 2567</td></tr>
+   <tr><td>V.15</td><td>25 ก.ย. 66</td><td>เพิ่ม Body fluid analysis, Malaria antigen, pH Pleural</td></tr>
+   <tr><td>V.14</td><td>29 มิ.ย. 65</td><td>ทบทวนและปรับปรุงประจำปี 2565</td></tr>
+   <tr><td>V.13</td><td>23 มิ.ย. 64</td><td>เพิ่ม Active B₁₂, Fructosamine, NIPT</td></tr>
+   <tr><td>V.12</td><td>15 พ.ค. 63</td><td>ทบทวนงานเคมีคลินิก 2563</td></tr>
+   </tbody></table>`},
+  {lt:'หลอดเก็บเลือด',rt:'การเตรียมผู้ป่วย',
+   l:`<div class="book-sec">ชนิดหลอดเก็บเลือด & Order of Draw</div>
+   <div style="font-size:11px;background:#f0f7ff;padding:8px 10px;border-radius:6px;margin-bottom:10px">🔵 Citrate → 🔴 แดง → 🟢 เขียว → 🟣 ม่วง → ⚫ เทา</div>
+   <table class="book-tbl"><thead><tr><th>สี</th><th>สารเคมี</th><th>ปริมาณ</th><th>ใช้ตรวจ</th></tr></thead>
+   <tbody>
+   <tr><td>🟣 ม่วง</td><td>K2 EDTA</td><td>2–3 ml</td><td>CBC, HbA1c, PTH</td></tr>
+   <tr><td>🟢 เขียว</td><td>Li-heparin</td><td>4 ml</td><td>เคมีคลินิก</td></tr>
+   <tr><td>🔵 ฟ้า</td><td>Citrate 3.2%</td><td>2.7 ml</td><td>PT, APTT, D-Dimer</td></tr>
+   <tr><td>🔴 แดง</td><td>Activator</td><td>4–6 ml</td><td>เคมี, ซีโรโลยี</td></tr>
+   <tr><td>⚫ เทา</td><td>NaF/Oxalate</td><td>2 ml</td><td>Glucose, Lactate</td></tr>
+   <tr><td>🟡 พิเศษ</td><td>K3 EDTA</td><td>10 ml</td><td>EGFR, KRAS, NIPT</td></tr>
+   </tbody></table>`,
+   r:`<div class="book-sec">การเตรียมผู้ป่วย</div>
+   <table class="book-tbl"><thead><tr><th>เงื่อนไข</th><th>รายการตรวจ</th></tr></thead>
+   <tbody>
+   <tr><td>งดอาหาร 8 ชม.</td><td>Fasting blood sugar</td></tr>
+   <tr><td>งดอาหาร 12 ชม.</td><td>Triglyceride, Beta-cross Laps</td></tr>
+   <tr><td>เจาะ 8–10 น.</td><td>Cortisol, PTH, Osteocalcin</td></tr>
+   <tr><td>งด anticoagulant</td><td>Antithrombin, Protein C, LA</td></tr>
+   <tr><td>งดยาคุม 2 เดือน</td><td>Antithrombin, Protein S</td></tr>
+   <tr><td>Hct >55%</td><td>ปรับสัดส่วนน้ำยา citrate</td></tr>
+   </tbody></table>`},
+  {lt:'การส่งสิ่งส่งตรวจ',rt:'เกณฑ์ปฏิเสธ',
+   l:`<div class="book-sec">ระยะเวลาการนำส่ง</div>
+   <table class="book-tbl"><thead><tr><th>เงื่อนไข</th><th>รายการตรวจ</th></tr></thead>
+   <tbody>
+   <tr style="background:#fff5f4"><td><strong style="color:#b91c1c">ส่งทันที + น้ำแข็ง</strong></td><td>Ammonia, Blood gas, Ionized Ca, Lactate</td></tr>
+   <tr><td>ภายใน 1 ชม.</td><td>APTT ratio, Electrolyte, Folate, Glucose, Lupus AC</td></tr>
+   <tr><td>ภายใน 2 ชม.</td><td>APTT, Calcium, CBC, Mg, Phosphorus, PTH</td></tr>
+   <tr><td>ห้ามโดนแสง</td><td>Bilirubin, CPK, Folate, Vit B₁₂</td></tr>
+   <tr><td>ห้ามแช่เย็น</td><td>Electrolyte</td></tr>
+   </tbody></table>
+   <div class="book-sec">สถานที่รับ 24 ชม.</div>
+   <div style="font-size:11px;line-height:1.8;color:#424245">📍 ห้องเจาะเลือด: นวมินทรบพิตร ชั้น 1 โทร 40047<br>🔬 ห้องปฏิบัติการกลาง: นวมินทรบพิตร ชั้น 1 โทร 4197048-9</div>`,
+   r:`<div class="book-sec">เกณฑ์ปฏิเสธสิ่งส่งตรวจ</div>
+   <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+   <div style="padding:7px 10px;background:#fff5f4;border-left:2.5px solid #ef4444;border-radius:4px">1. ติดป้ายไม่ถูกต้อง หรือชื่อไม่ตรงกัน</div>
+   <div style="padding:7px 10px;background:#fff5f4;border-left:2.5px solid #ef4444;border-radius:4px">2. ไม่มีใบขอตรวจ</div>
+   <div style="padding:7px 10px;background:#fff5f4;border-left:2.5px solid #ef4444;border-radius:4px">3. ภาชนะหรือสารกันเลือดไม่ถูกต้อง</div>
+   <div style="padding:7px 10px;background:#fff5f4;border-left:2.5px solid #ef4444;border-radius:4px">4. ปริมาณสิ่งส่งตรวจไม่เพียงพอ</div>
+   <div style="padding:7px 10px;background:#fff5f4;border-left:2.5px solid #ef4444;border-radius:4px">5. ส่งช้ากว่ากำหนด</div>
+   <div style="padding:7px 10px;background:#fff5f4;border-left:2.5px solid #ef4444;border-radius:4px">6. Clot ใน whole blood / Hemolysis / อุณหภูมิไม่เหมาะสม</div>
+   </div>`},
+  {lt:'รายการตรวจวิเคราะห์',rt:'ระยะเวลาเก็บรักษา',
+   l:`<div class="book-sec">การทดสอบทางเคมีคลินิก (A–M)</div>
+   <div style="columns:2;font-size:10.5px;line-height:1.9;color:#6e6e73">
+   Active Vit B₁₂ · Albumin · ALP · ALT · Ammonia · Amylase · AMH · AST ·
+   Beta-CrossLab · Blood gas · BUN · C-peptide · Calcium · Ceruloplasmin ·
+   Cholesterol · CK-MB · COHb · Cortisol · CPK · CRP · Creatinine · Cystatin C ·
+   DHEA-S · Direct bilirubin · Electrolytes · Estradiol ·
+   Ferritin · Folate · Free T₃ · Free T₄ · Fructosamine · FSH ·
+   GGT · Glucose · GTT · Haptoglobin · HbA₁c · HDL-C · hsCRP ·
+   Insulin · Ketone · Lactate · LDH · LDL-C · LH · Lipase · Lipoprotein(a) ·
+   Magnesium · MetHb
+   </div>`,
+   r:`<div class="book-sec">ระยะเวลาเก็บสิ่งส่งตรวจ</div>
+   <table class="book-tbl"><thead><tr><th>ชนิด</th><th>อุณหภูมิ</th><th>ระยะเวลา</th></tr></thead>
+   <tbody>
+   <tr><td>Primary tube (กลาง)</td><td>cobas p701</td><td>72 ชม.</td></tr>
+   <tr><td>EDTA blood</td><td>2–8°C</td><td>48 ชม.</td></tr>
+   <tr><td>Citrated blood</td><td>2–8°C</td><td>48 ชม.</td></tr>
+   <tr><td>Blood smear</td><td>ห้อง</td><td>7 วัน</td></tr>
+   <tr><td>Body fluid</td><td>2–8°C</td><td>7 วัน</td></tr>
+   <tr><td>Primary (พิเศษ)</td><td>2–8°C</td><td>14 วัน</td></tr>
+   <tr><td>Aliquot Serum</td><td>−20°C</td><td>3 เดือน</td></tr>
+   </tbody></table>`}
+];
+
+function renderBook() {
+  const pg = BDATA[bPage];
+  const today = new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('bookSpread').innerHTML = `
+    <div class="book-page left">
+      <div class="book-pg-h"><h2>คู่มือส่งตรวจทางห้องปฏิบัติการ</h2><p>ภาควิชาพยาธิวิทยาคลินิก · ศิริราชพยาบาล · Version 17</p></div>
+      <div class="book-sec">${pg.lt}</div>${pg.l}
+      <div class="book-foot"><span>ภาควิชาพยาธิวิทยาคลินิก ศิริราชพยาบาล</span><span>หน้า ${bPage*2+1}</span></div>
+    </div>
+    <div class="book-page right">
+      <div class="book-pg-h"><h2>${pg.rt}</h2><p>ปรับปรุงล่าสุด: ${today}</p></div>
+      ${pg.r}
+      <div class="book-foot"><span>Version 17 | ${today}</span><span>หน้า ${bPage*2+2}</span></div>
+    </div>
+  `;
+  document.getElementById('bNum').textContent = bPage+1;
+  document.getElementById('bTotal').textContent = BPAGES;
+  document.getElementById('bPrev').disabled = bPage===0;
+  document.getElementById('bNext').disabled = bPage===BPAGES-1;
+}
+function bookGo(d) { bPage = Math.max(0,Math.min(BPAGES-1,bPage+d)); renderBook(); }
+
+// ── AI CHAT — Reads from Google Sheet data ──
+function initChat() {
+  if (allData.length === 0) loadTests();
+  const el = document.getElementById('aiStatus');
+  if (el) el.innerHTML = allData.length
+    ? `<span class="status-badge status-online"><span class="status-dot"></span>ข้อมูล ${allData.length} รายการพร้อม</span>`
+    : `<span class="status-badge status-offline"><span class="status-dot"></span>ยังไม่มีข้อมูล Sheet</span>`;
+}
+
+function buildContext() {
+  if (!allData.length) return 'ยังไม่มีข้อมูล Google Sheet — ใช้ข้อมูลจากความรู้ทั่วไปแทน';
+  const rows = allData.slice(0,100).map(d =>
+    `[${d.labCode||'-'}|${d.govCode||'-'}] ${d.name} | วิธี:${d.method} | สิ่งส่งตรวจ:${d.specimen} | tube:${d.tube} | ปริมาณ:${d.volume} | ค่าอ้างอิง:${d.ref} | วิกฤต:${d.critical||'—'} | วิเคราะห์:${d.analyzeTime} | รับผล:${d.resultTime} | ราคา:${d.price}฿ | note:${d.note||'—'}`
+  ).join('\n');
+  return `ข้อมูลรายการตรวจจาก Google Sheet (${allData.length} รายการ):\nรูปแบบ: [Lab Code | Gov Code] ชื่อการตรวจ | ...\n\n${rows}`;
+}
+
+const SYS = `คุณคือ AI ผู้ช่วยคู่มือส่งตรวจทางห้องปฏิบัติการ ภาควิชาพยาธิวิทยาคลินิก คณะแพทยศาสตร์ศิริราชพยาบาล
+
+ใช้ข้อมูลจาก Google Sheet ที่ได้รับเป็นหลักในการตอบคำถาม หากพบรายการตรวจในข้อมูล ให้ตอบตามข้อมูลนั้นทันที
+
+ข้อมูลสำคัญเพิ่มเติม:
+- Order of Draw: 🔵 Citrate → 🔴 แดง → 🟢 เขียว → 🟣 ม่วง → ⚫ เทา
+- ส่งทันที+น้ำแข็ง: Ammonia, Blood gas, Ionized Ca, Lactate
+- ส่งภายใน 1 ชม.: APTT ratio, Electrolyte, Glucose (non-NaF), Lupus AC
+- ส่งภายใน 2 ชม.: APTT, CBC, Calcium, Mg, Phosphorus, PTH
+- ห้ามโดนแสง: Bilirubin, CPK, Folate, Vit B12
+- ห้ามแช่เย็น: Electrolyte
+
+ตอบเป็นภาษาไทย กระชับ ชัดเจน ใช้ emoji เพื่อช่วยอ่านง่าย`;
+
+async function sendChat() {
+  if (aiLoading) return;
+  const inp = document.getElementById('chatIn');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = ''; autoH(inp);
+  addMsg('user', msg);
+  chatHist.push({role:'user', content: msg});
+  aiLoading = true;
+  document.getElementById('chatBtn').disabled = true;
+  const tid = addTyping();
+  try {
+    const context = buildContext();
+    const msgs = [
+      {role:'user', content:`[ข้อมูล Database]\n${context}\n\n[คำถาม]\n${chatHist[0]?.content || msg}`},
+      ...chatHist.slice(1).map(h => ({role:h.role, content:h.content}))
+    ];
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:msgs.slice(-8)})
+    });
+    const data = await res.json();
+    rmTyping(tid);
+    const reply = data.content?.[0]?.text || 'ขออภัย ไม่สามารถตอบได้';
+    addMsg('ai', reply);
+    chatHist.push({role:'assistant', content:reply});
+  } catch(e) {
+    rmTyping(tid);
+    addMsg('ai','⚠️ ไม่สามารถเชื่อมต่อ AI ได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง');
+  }
+  aiLoading = false;
+  document.getElementById('chatBtn').disabled = false;
+}
+
+function addMsg(role, text) {
+  const w = document.getElementById('chatMsgs');
+  const t = new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  const d = document.createElement('div');
+  d.className = 'msg '+role;
+  d.innerHTML = `<div class="msg-av ${role}">${role==='ai'?'AI':'คุณ'}</div><div><div class="msg-b">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${t}</div></div>`;
+  w.appendChild(d); w.scrollTop = w.scrollHeight;
+}
+function addTyping() {
+  const w = document.getElementById('chatMsgs');
+  const id = 'tp'+Date.now();
+  const d = document.createElement('div');
+  d.className='msg ai'; d.id=id;
+  d.innerHTML=`<div class="msg-av ai">AI</div><div><div class="msg-b"><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div></div></div>`;
+  w.appendChild(d); w.scrollTop=w.scrollHeight; return id;
+}
+function rmTyping(id) { document.getElementById(id)?.remove(); }
+function chatKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();} }
+function autoH(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
+function presug(btn) { document.getElementById('chatIn').value=btn.textContent; sendChat(); }
+function askAbout(name) { nav('chat'); setTimeout(()=>{document.getElementById('chatIn').value='ช่วยอธิบายรายละเอียด '+name+' ให้หน่อยได้ไหม?';sendChat();},200); }
+
+// ── GLOBAL SEARCH ──
+function handleGSearch(e) {
+  if (e.key==='Enter') {
+    const q = e.target.value.trim();
+    if (q) { nav('tests'); setTimeout(()=>{document.getElementById('testQ').value=q;renderTable();},100); }
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();document.getElementById('gSearch').focus();}
+  if (e.key==='Escape') ovOff();
+});
+
+
+// ── FETCH MANUAL DATA (5 separate sheets) ──
+async function sheetRows(sheetName, range='A1:F200') {
+  if (!SHEET_ID || !API_KEY) return [];
+  const r = encodeURIComponent(sheetName + '!' + range);
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${r}?key=${API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) return [];
+  const j = await res.json();
+  return j.values || [];
+}
+
+async function fetchManualData() {
+  if (!SHEET_ID || !API_KEY) return;
+  try {
+    const [patRows, sendRows, rejRows, storRows, addRows] = await Promise.all([
+      sheetRows(SH_PATIENT),
+      sheetRows(SH_SENDING),
+      sheetRows(SH_REJECT),
+      sheetRows(SH_STORAGE),
+      sheetRows(SH_ADDON),
+    ]);
+    const cacheData = { patRows, sendRows, rejRows, storRows, addRows };
+    localStorage.setItem('labManualCache', JSON.stringify(cacheData));
+    applyManualData(cacheData);
+  } catch(e) { console.warn('fetchManualData error', e); }
+}
+
+function applyManualData({ patRows, sendRows, rejRows, storRows, addRows } = {}) {
+  // Skip header rows (row 1=title, row 2=section, row 3=hint, row 4=headers)
+  // Data starts row 5 = index 4
+
+  // ── PATIENT ────────────────────────────────────────────
+  if (patRows?.length > 4) {
+    const DATA_ROWS = patRows.slice(4).filter(r => r[0] && r[4] !== 'ซ่อน');
+
+    // Section A: prep cards (up to row before 'prep_med' section ~row 12)
+    // Detect split: rows that have a style column value matching colors = section A
+    // Rows without style value = section B (med conditions)
+    // Use column B: if it's a known style color = card, else = med table
+    const STYLES = ['red','orange','blue','purple','teal','green'];
+    const cardRows = DATA_ROWS.filter(r => STYLES.includes(r[1]));
+    const medRows  = patRows.slice(4).filter(r => r[0] && !STYLES.includes(r[1]) && r[0] !== 'prep_med_เงื่อนไข' && r[3] !== 'แสดงผล');
+
+    // Also get med section (section B starts at row 15 index 14)
+    const medDataRows = patRows.slice(14).filter(r => r[0] && r[3] !== 'แสดงผล' && r[3] !== 'เงื่อนไข (Condition)' && r[0] !== 'เงื่อนไข (Condition)');
+
+    let html = '';
+    if (cardRows.length) {
+      const COLOR_MAP = { red:'var(--red)', orange:'var(--orange)', blue:'var(--blue)', purple:'var(--purple)', teal:'var(--teal)', green:'var(--green)' };
+      html += '<div class="prep-grid mb-20">';
+      cardRows.forEach(r => {
+        const title = r[0]||'', style = r[1]||'blue', tests = r[2]||'';
+        const items = tests.split(',').map(s=>s.trim()).filter(Boolean);
+        html += `<div class="prep-card"><div class="prep-h ${style}">${title}</div>${items.map(i=>`<div class="prep-item">${i}</div>`).join('')}</div>`;
+      });
+      html += '</div>';
+    }
+    if (medDataRows.length) {
+      html += `<div class="card mb-20"><div class="card-h"><div class="card-title">ข้อกำหนดยาและอื่นๆ</div></div><div class="card-b" style="padding:0"><div class="table-wrap" style="border:none;border-radius:0"><table><thead><tr><th>เงื่อนไข</th><th>รายการตรวจ</th></tr></thead><tbody>`;
+      medDataRows.forEach(r => {
+        if (r[4]==='ซ่อน') return;
+        const color_cls = r[2] ? `style="color:var(--${r[2]});font-weight:600"` : 'style="font-weight:600"';
+        html += `<tr><td ${color_cls}>${r[0]||''}</td><td>${r[1]||''}</td></tr>`;
+      });
+      html += '</tbody></table></div></div></div>';
+    }
+    if (html) { const el=document.getElementById('patientContent'); if(el) el.innerHTML=html; }
+  }
+
+  // ── SENDING ────────────────────────────────────────────
+  if (sendRows?.length > 4) {
+    const groupData = sendRows.slice(4).filter(r => r[0] && r[4]!=='ซ่อน');
+    if (groupData.length) {
+      const ICONS = {
+        red:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>',
+        orange:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        blue:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        purple:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+        teal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.22 4.22l15.56 15.56M2 12h20M4.22 19.78l15.56-15.56"/></svg>',
+      };
+
+      // Get intro text from lower section
+      let introTitle = 'หลักการทั่วไป', introText = '';
+      sendRows.slice(12).forEach(r => {
+        if (r[0]==='intro_title') introTitle = r[1]||introTitle;
+        if (r[0]==='intro_text')  introText  = r[1]||introText;
+      });
+
+      let html = '';
+      if (introText) {
+        html += `<div class="alert info mb-20"><div class="alert-dot"></div><div><div class="alert-title">${introTitle}</div><div class="alert-text">${introText}</div></div></div>`;
+      }
+      html += '<div class="send-grid">';
+      groupData.forEach(r => {
+        const title=r[0]||'', style=r[1]||'blue', testsRaw=r[2]||'', wide=r[3]==='ใช่';
+        const items = testsRaw.split('|').map(s=>s.trim()).filter(Boolean);
+        const wideStyle = wide ? 'style="grid-column:1/-1"' : '';
+        html += `<div class="send-card" ${wideStyle}><div class="send-h ${style}">${ICONS[style]||''}${title}</div><div class="send-list">`;
+        items.forEach(it => html += `<div class="send-item">${it}</div>`);
+        html += '</div></div>';
+      });
+      html += '</div>';
+      const el = document.getElementById('sendingContent');
+      if (el) el.innerHTML = html;
+    }
+  }
+
+  // ── REJECTION ──────────────────────────────────────────
+  if (rejRows?.length > 4) {
+    const rejData = rejRows.slice(4).filter(r => r[1] && r[3]!=='ซ่อน');
+    let alertText = '';
+    rejRows.slice(12).forEach(r => { if (r[0]==='alert_text') alertText = r[1]||''; });
+    let html = '';
+    if (alertText) html += `<div class="alert warn mb-20"><div class="alert-dot"></div><div><div class="alert-title">ข้อควรทราบ</div><div class="alert-text">${alertText}</div></div></div>`;
+    html += '<div class="reject-list">';
+    rejData.forEach((r,i) => {
+      const title = r[1]||'', detail = (r[2]||'').replace(/\n/g,'<br>').replace(/•/g,'•');
+      html += `<div class="reject-item"><div class="reject-n">${i+1}</div><div class="reject-text"><strong>${title}</strong>${detail ? '<br>'+detail : ''}</div></div>`;
+    });
+    html += '</div>';
+    const el = document.getElementById('rejectionContent');
+    if (el && rejData.length) el.innerHTML = html;
+  }
+
+  // ── STORAGE ────────────────────────────────────────────
+  if (storRows?.length > 4) {
+    const storData = storRows.slice(4).filter(r => r[0]);
+    const mainRows = storData.filter(r => r[4]==='กลาง');
+    const specRows = storData.filter(r => r[4]==='พิเศษ');
+    const makeTable = (rows, title) => {
+      if (!rows.length) return '';
+      return `<div class="info-box"><div class="info-box-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>${title}</div>
+        <div class="table-wrap" style="border:none;border-radius:0"><table>
+        <thead><tr><th>งาน/ชนิด</th><th>หลอด/ภาชนะ</th><th>สถานที่</th><th>ระยะเวลา</th></tr></thead><tbody>
+        ${rows.map(r=>`<tr><td><strong>${r[0]||''}</strong></td><td>${r[1]||''}</td><td>${r[2]||''}</td><td><span class="tag tag-blue">${r[3]||''}</span></td></tr>`).join('')}
+        </tbody></table></div></div>`;
+    };
+    const html = `<div class="storage-grid">${makeTable(mainRows,'ห้องปฏิบัติการกลาง')}${makeTable(specRows,'ห้องปฏิบัติการพิเศษ')}</div>`;
+    const el = document.getElementById('storageContent');
+    if (el && storData.length) el.innerHTML = html;
+  }
+
+  // ── ADDON ──────────────────────────────────────────────
+  if (addRows?.length > 4) {
+    const addData = addRows.slice(4).filter(r => r[0] && r[4]!=='ซ่อน');
+    let introText = '';
+    addRows.slice(11).forEach(r => { if (r[0]==='intro_text') introText = r[1]||''; });
+    let html = '';
+    if (introText) html += `<div class="alert info mb-20"><div class="alert-dot"></div><div><div class="alert-title">วิธีการขอตรวจเพิ่ม / ขอตรวจซ้ำ</div><div class="alert-text">${introText}</div></div></div>`;
+    html += `<div class="card mb-20"><div class="card-h"><div class="card-title">ระยะเวลาที่สามารถขอตรวจเพิ่ม/ซ้ำได้ (นับตั้งแต่เริ่มเจาะเลือด)</div></div><div class="card-b" style="padding:0"><div class="table-wrap" style="border:none;border-radius:0"><table><thead><tr><th>ระยะเวลา</th><th>รายการตรวจ</th></tr></thead><tbody>`;
+    const BG = {green:'#f0fdf4',blue:'#eff6ff',purple:'#fdf4ff',orange:'#fff8f0',red:'#fff1f2'};
+    const FC = {green:'#166534',blue:'#1d4ed8',purple:'#7c3aed',orange:'#c2410c',red:'#b91c1c'};
+    addData.forEach(r => {
+      const time=r[0]||'', style=r[1]||'blue', tests=r[2]||'';
+      const bg=BG[style]||'#f9fafb', fc=FC[style]||'#374151';
+      html += `<tr style="background:${bg}"><td style="font-weight:800;color:${fc};font-size:14px;white-space:nowrap">${time}</td><td style="font-size:12.5px;line-height:1.9">${tests}</td></tr>`;
+    });
+    html += '</tbody></table></div></div></div>';
+    const el = document.getElementById('addonContent');
+    if (el && addData.length) el.innerHTML = html;
+  }
+}
+
+// ── RENDER URINE STEPS ──
+function renderUrineSteps() {
+  const STEPS_TH = [
+    'ล้างมือและอวัยวะสืบพันธุ์ให้สะอาด',
+    'ปัสสาวะช่วงแรกทิ้งไปเล็กน้อย',
+    'เก็บปัสสาวะช่วงต่อมา ประมาณครึ่งหนึ่งของภาชนะ',
+    'ปัสสาวะช่วงสุดท้ายทิ้งไป',
+    'ปิดฝาให้สนิท ใส่ถุงพลาสติก นำส่งเจ้าหน้าที่'
+  ];
+  const STEPS_EN = [
+    'Clean your hand and genital area',
+    'Begin voiding initial urine into the toilet',
+    "Collect the 'midstream' part — about half full",
+    'Continue urinating into the toilet',
+    'Close, clean with tissue, put in bag and send to staff'
+  ];
+  const makeSteps = (colorBg, colorHl, colorText, highlightIdx=2) =>
+    STEPS_TH.map((th,i) => {
+      const isHL = i === highlightIdx;
+      return `<div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);align-items:flex-start;${isHL?'background:'+colorHl:''}">
+        <div style="width:28px;height:28px;background:${isHL?colorText:'#f0f0f0'};color:${isHL?'white':colorText};border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0">${i+1}</div>
+        <div><div style="font-weight:${isHL?700:600};font-size:13px;color:${isHL?colorText:'var(--text)'}">${isHL?'⭐ ':''}${th}</div>
+        <div style="font-size:11.5px;color:var(--text3)">${STEPS_EN[i]}</div></div>
+      </div>`;
+    }).join('');
+
+  const femaleEl = document.getElementById('urineStepsFemale');
+  const maleEl = document.getElementById('urineStepsMale');
+  if (femaleEl) femaleEl.innerHTML = makeSteps('#fce7f3','#fdf9ff','#9d174d');
+  if (maleEl) maleEl.innerHTML = makeSteps('#dbeafe','#eff9ff','#1e40af');
+}
+
+// ── INIT ──
+loadSettingsUI();
+renderBook();
+// Load cached home info immediately (before Sheet loads)
+const cachedHome = localStorage.getItem('labHomeCache');
+if (cachedHome) { try { applyHomeInfo(JSON.parse(cachedHome)); } catch(e){} }
+// Pre-load demo data silently
+allData = demoData();
+renderTable();
+// Render urine steps (static)
+renderUrineSteps();
+// Load cached manual data
+const cachedManual = localStorage.getItem('labManualCache');
+if (cachedManual) { try { applyManualData(JSON.parse(cachedManual)); } catch(e){} }
+// Try to load live data if credentials exist
+if (SHEET_ID && API_KEY) {
+  fetchHomeInfo();
+  fetchManualData();
+  loadTests();
+}
+</script>
+</body>
+</html>
