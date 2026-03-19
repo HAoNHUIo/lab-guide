@@ -2,7 +2,16 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LabGuide">
+<meta name="theme-color" content="#0071e3">
+<meta name="description" content="คู่มือส่งตรวจทางห้องปฏิบัติการ ภาควิชาพยาธิวิทยาคลินิก ศิริราชพยาบาล">
+<link rel="manifest" href="manifest.json">
+<!-- Apple touch icons -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230071e3'/><text y='68' x='50' text-anchor='middle' font-size='55' fill='white'>🔬</text></svg>">
 <title>LabGuide — คู่มือห้องปฏิบัติการ</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -501,12 +510,66 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
   .quick-grid,.steps-grid,.tube-grid,.prep-grid,.send-grid,.storage-grid,.info-grid{grid-template-columns:1fr}
   .book-spread{grid-template-columns:1fr}
 }
+
+/* ── MOBILE SIDEBAR TOGGLE ── */
+.sidebar-open .sidebar { transform: translateX(0) !important; }
+.sidebar-open .sidebar-overlay { display:block !important; }
+.sidebar-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.4); z-index:99;
+  backdrop-filter:blur(2px);
+}
+.menu-btn {
+  display:none; width:36px; height:36px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:8px; cursor:pointer;
+  align-items:center; justify-content:center;
+  color:white; flex-shrink:0;
+}
+.menu-btn svg { width:18px; height:18px; }
+@media(max-width:960px){
+  .menu-btn { display:flex; }
+  .sidebar {
+    transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    z-index:200;
+    box-shadow:4px 0 20px rgba(0,0,0,0.15);
+  }
+  .topbar-search { max-width:200px; }
+}
+
+/* ── iOS SAFE AREA ── */
+.topbar { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+.sidebar { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+.main { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ── PWA INSTALL BANNER ── */
+.pwa-banner {
+  display:none; position:fixed; bottom:16px; left:50%;
+  transform:translateX(-50%);
+  background:var(--text); color:white;
+  padding:12px 20px; border-radius:12px;
+  font-size:13px; font-weight:600;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  z-index:3000; gap:12px; align-items:center;
+  white-space:nowrap;
+}
+.pwa-banner.show { display:flex; }
+.pwa-banner button {
+  background:var(--blue); color:white; border:none;
+  padding:6px 14px; border-radius:8px;
+  font-family:var(--font); font-size:12px; font-weight:700; cursor:pointer;
+}
+.pwa-banner .pwa-close { background:transparent; padding:0; opacity:.6; font-size:16px; }
 </style>
 </head>
 <body>
 
 <!-- TOPBAR -->
 <header class="topbar">
+  <button class="menu-btn" onclick="toggleSidebar()" aria-label="เมนู">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
   <a class="topbar-brand" href="#">
     <div class="topbar-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
@@ -534,6 +597,16 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0}
     </button>
   </div>
 </header>
+
+<!-- Sidebar overlay for mobile -->
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<!-- PWA Install Banner -->
+<div class="pwa-banner" id="pwaBanner">
+  🔬 ติดตั้งเป็น App บนเครื่องได้เลย!
+  <button onclick="installPWA()">ติดตั้ง</button>
+  <button class="pwa-close" onclick="document.getElementById('pwaBanner').classList.remove('show')">✕</button>
+</div>
 
 <!-- SIDEBAR -->
 <nav class="sidebar">
@@ -1301,8 +1374,8 @@ let bPage = 0;
 const BPAGES = 4;
 let chatHist = [];
 let aiLoading = false;
-let SHEET_ID  = localStorage.getItem('labSId')  || '';
-let API_KEY   = localStorage.getItem('labKey')   || '';
+let SHEET_ID  = localStorage.getItem('labSId')  || '1le5YHnuxtTICtvO4DxNWUqXwnzRsUrjppaR-V0mhkfU';
+let API_KEY   = localStorage.getItem('labKey')   || 'AIzaSyBy2nRq67QOWKr9A6nuArsh1QNJWJPQeuo';
 let SH_NAME   = localStorage.getItem('labName')  || 'รายการตรวจ';
 let SH_HOME   = localStorage.getItem('labHome')  || 'ข้อมูลหน้าแรก';
 // 5 separate manual sheets
@@ -1311,7 +1384,47 @@ let SH_SENDING  = localStorage.getItem('labSending')  || 'การส่งส�
 let SH_REJECT   = localStorage.getItem('labReject')   || 'เกณฑ์ปฏิเสธ';
 let SH_STORAGE  = localStorage.getItem('labStorage')  || 'ระยะเวลาเก็บรักษา';
 let SH_ADDON    = localStorage.getItem('labAddon')    || 'การขอตรวจเพิ่ม';
-let GEMINI_KEY  = localStorage.getItem('labGemini')   || '';
+let GEMINI_KEY  = localStorage.getItem('labGemini')   || 'AIzaSyAKTO0xYadbCpN_y3NeOnUM5SDAuL8nwzw';
+
+// ── SIDEBAR TOGGLE (mobile) ──
+function toggleSidebar() {
+  document.body.classList.toggle('sidebar-open');
+}
+
+// ── PWA ──
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaBanner')?.classList.add('show');
+});
+async function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaBanner')?.classList.remove('show');
+}
+window.addEventListener('appinstalled', () => {
+  document.getElementById('pwaBanner')?.classList.remove('show');
+});
+
+// Register Service Worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swCode = `
+const CACHE = 'labguide-v1';
+const ASSETS = ['/'];
+self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS))));
+self.addEventListener('fetch', e => {
+  if (e.request.url.includes('googleapis') || e.request.url.includes('generativelanguage')) return;
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/'))));
+});`;
+    const blob = new Blob([swCode], {type:'application/javascript'});
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(()=>{});
+  });
+}
 
 // ── NAV ──
 function nav(id) {
@@ -1321,6 +1434,8 @@ function nav(id) {
   document.querySelectorAll('.nav-item').forEach(n => {
     if (n.getAttribute('onclick')?.includes("'" + id + "'")) n.classList.add('active');
   });
+  // Auto-close sidebar on mobile
+  document.body.classList.remove('sidebar-open');
   if (id === 'tests') loadTests();
   if (id === 'book') renderBook();
   if (id === 'settings') loadSettingsUI();
